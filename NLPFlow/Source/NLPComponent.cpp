@@ -42,4 +42,8 @@ namespace NLP {
         return false;
     }
     
+    void Component::execute() {
+        return;
+    }
+    
 }
