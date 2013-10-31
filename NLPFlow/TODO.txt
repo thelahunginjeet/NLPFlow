@@ -1,0 +1,14 @@
+TODO:
+-add parameter ports (open parameter port an easy way to start the network running)
+-add error ports (they could handle the thrown errors)
+-if we keep boost::variant, need to handle the bad gets
+-probably need pImpl everywhere eventually
+-get rid of string matching for everything (one problem at a time . . .)
+
+
+QUESTIONS:
+-boost::variant the best way to handle the packets?  boost::get seems fine if we aren't manipulating the packet contents, and we cannot use visitors anyway because they are designed to avoid exposing the contents
+-who should manage port openings/closing?  At the port level, or at component level?
+-hide the port implementation?
+-consolidate in Ports?  would clean things up (1 port map instead of input/output maps), but safety could be an issue, as you could potentially hook things up backwards
+
