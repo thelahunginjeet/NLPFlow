@@ -1,10 +1,15 @@
+NEXTUP:
+-type safety in box connections (enum that is set at box creation, check connections)
+-get rid of string matching for port selection
+
 TODO:
+-make a types header
+-think hard about port opening/closing; current implementation is confusing (without multithreading, this is probably only relevant for multithreading and getting the network to run)
 -add parameter ports (open parameter port an easy way to start the network running)
 -add error ports (they could handle the thrown errors)
 -if we keep boost::variant, need to handle the bad gets
 -probably need pImpl everywhere eventually
 -get rid of string matching for everything (one problem at a time . . .)
--current port opening/closing is problematic, as an output running on a different thread from the subsequent input could overwrite the send() contents (however, multithreading will be complicated in any case
 
 
 QUESTIONS:
@@ -13,4 +18,4 @@ QUESTIONS:
 -hide the port implementation?
 -consolidate in Ports?  would clean things up (1 port map instead of input/output maps), but safety could be an issue, as you could potentially hook things up backwards
 -worried about dangerous stuff with my map of boxes; I think I need some kind of container of pointers because Container is abstract, though
-
+-boost::ptr_map may be a bad idea b/c it internally uses void* as the pointer storage

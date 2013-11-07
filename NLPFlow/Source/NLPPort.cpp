@@ -34,20 +34,24 @@ namespace NLP {
     
     InputPort::InputPort(std::string name) : Port(name) {}
     
-    void InputPort::receive(packet_t input) {
-        // store the recieved packet and open the port for later access
-        mCurrentPacket = input;
+    void InputPort::receive(packet_t p) {
+        // put the packet into the queue
+        mPackets.push(p);
         mOpen = true;
         return;
+    }
+    
+    const bool InputPort::packetsReady() const {
+        return (mPackets.size() > 0) ? true : false;
     }
     
 # pragma mark - OutputPort methods
     
     OutputPort::OutputPort(std::string name) : Port(name) {}
-    
-    void OutputPort::send(packet_t output) {
+        
+    void OutputPort::send(packet_t p) {
         // send the packet and close the port after send
-        mEmitter(output);
+        mEmitter(p);
         mOpen  = false;
         return;
     }

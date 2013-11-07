@@ -9,7 +9,6 @@
 #ifndef NLP_NLP_hpp
 #define NLP_NLP_hpp
 
-#include "NLPNode.hpp"
 #include "NLPPort.hpp"
 #include "NLPComponent.hpp"
 #include "NLPNetwork.hpp"

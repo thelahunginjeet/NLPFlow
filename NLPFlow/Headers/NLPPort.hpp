@@ -11,6 +11,7 @@
 
 #include <boost/signals2/signal.hpp>
 #include <boost/variant.hpp>
+#include <queue>
 
 namespace NLP {
 
@@ -28,6 +29,13 @@ namespace NLP {
     void fillPacketData(packet_t& p, T& var) {
         var = boost::get<T>(p);
     };
+    
+    // is this going to work?
+    //template<typename T>
+    //void dropNextPacket(std::queue<packet_t>& q, T& var) {
+    //    var = boost::get<T>(q.front());
+    //    q.pop();
+    //}
     
     class Port {
     public:
@@ -49,17 +57,24 @@ namespace NLP {
     class InputPort : public Port {
     public:
         InputPort(std::string name = "IN");
-        void receive(packet_t input);
-    
+        void receive(packet_t p);
+        const bool packetsReady() const;
+        
+        template<typename T>
+        void dropNextPacket(T& var) {
+            var = boost::get<T>(mPackets.front());
+            mPackets.pop();
+        }
+        
     private:
-        packet_t mCurrentPacket;
+        std::queue<packet_t> mPackets;
         
     };
     
     class OutputPort : public Port {
     public:
         OutputPort(std::string name="OUT");
-        void send(packet_t output);
+        void send(packet_t p);
         bool connect(InputPort& port);
         bool canConnect(InputPort& port);
         bool disconnect();

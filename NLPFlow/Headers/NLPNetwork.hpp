@@ -10,14 +10,13 @@
 #define NLP_NLPNetwork_npp
 
 #include "NLPComponent.hpp"
-#include <boost/ptr_container/ptr_map.hpp>
 
 namespace NLP {
     
+    // abstract base class
     class Network {
     public:
         Network();
-        ~Network();
         bool connect(std::string boxOut, std::string portOut, std::string boxIn, std::string portIn);
         bool isRunnable();
         void run();
@@ -26,6 +25,13 @@ namespace NLP {
         
     protected:
         boost::ptr_map<std::string, Component> mBoxes;
+    };
+    
+    // specific network
+    class NLPNetwork : public Network {
+    public:
+        NLPNetwork();
+        bool define();
     };
 }
 

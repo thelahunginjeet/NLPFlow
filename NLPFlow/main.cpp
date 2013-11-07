@@ -10,14 +10,20 @@
 #include <iostream>
 
 int testnetwork() {
+    // create the network
+    NLP::NLPNetwork network;
+    // setup
+    network.define();
+    // run
+    network.run();
     // define the reader and writer
-    NLP::TextReaderNode reader;
-    NLP::StringWriterNode writer;
-    NLP::Tokenizer tokenizer;
+    //NLP::TextReaderNode reader;
+    //NLP::StringWriterNode writer;
+    //NLP::Tokenizer tokenizer;
     // port names are not paid attention to here
-    reader.connectPort(tokenizer,"STROUT","STRIN");
-    tokenizer.connectPort(writer,"STROUT","STRIN");
-    reader.read("./Tests/smalltest.txt");
+    //reader.connectPort(tokenizer,"STROUT","STRIN");
+    //tokenizer.connectPort(writer,"STROUT","STRIN");
+    //reader.read("./Tests/smalltest.txt");
     return 0;
 }
 

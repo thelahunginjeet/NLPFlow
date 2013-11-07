@@ -10,9 +10,11 @@
 #define NLP_NLPComponent_hpp
 
 #include "NLPPort.hpp"
+#include <boost/ptr_container/ptr_map.hpp>
 
 namespace NLP {
     
+    // abstract base class
     class Component {
     public:
         Component(std::string name = "BLACKBOX");
@@ -20,14 +22,57 @@ namespace NLP {
         InputPort& inputPort(std::string name);
         OutputPort& outputPort(std::string name);
         bool hasOpenPorts();
-        // overload; default does nothing
-        virtual void execute();
+
+        virtual void execute() = 0;
         
     protected:
         std::string mName;
-        std::map<std::string,OutputPort> mOutputs;
-        std::map<std::string,InputPort> mInputs;
+        boost::ptr_map<std::string,OutputPort> mOutputs;
+        boost::ptr_map<std::string,InputPort> mInputs;
     };
+    
+    
+    // specific components
+    // reader
+    class TextReader : public Component {
+    public:
+        TextReader(std::string name = "TextReader");
+        void execute();
+    };
+    
+    // writers
+    class TextWriter : public Component {
+    public:
+        TextWriter(std::string name = "TextWriter");
+        void execute();
+    };
+    
+    class IntWriter : public Component {
+    public:
+        IntWriter(std::string name = "IntegerWriter");
+        void execute();
+    };
+    
+    class Tokenizer : public Component {
+    public:
+        Tokenizer(std::string name = "Tokenizer");
+        void execute();
+    };
+    
+    class BinaryStringDuplicator : public Component {
+    public:
+        BinaryStringDuplicator(std::string name = "StringDuplicator");
+        void execute();
+    };
+    
+    class StringCounter : public Component {
+    public:
+        StringCounter(std::string name = "Counter");
+        void execute();
+    private:
+        int mCount;
+    };
+    
 }
 
 #endif
