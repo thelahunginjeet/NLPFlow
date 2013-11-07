@@ -29,6 +29,20 @@ namespace NLP {
         return mOutputs.at(name);
     }
     
+    bool Component::hasInput(std::string name) {
+        if(mInputs.find(name) != mInputs.end()) {
+            return true;
+        }
+        return false;
+    }
+    
+    bool Component::hasOutput(std::string name) {
+        if(mOutputs.find(name) != mOutputs.end()) {
+            return true;
+        }
+        return false;
+    }
+    
     bool Component::hasOpenPorts() {
         // check for open inputs
         for(auto it = mInputs.begin(); it != mInputs.end(); ++it) {

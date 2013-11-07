@@ -8,8 +8,7 @@ TODO:
 -add error ports (they could handle the thrown errors)
 -if we keep boost::variant, need to handle the bad gets
 -probably need pImpl everywhere eventually
--get rid of string matching for port selection? (go to enum for ports IN0, IN1, ... , OUT0, OUT1, ...)
--handle fails on find()/at() in maps
+-remove some of the string matching
 
 
 QUESTIONS:

@@ -15,12 +15,20 @@ namespace NLP {
     Network::Network() { }
     
     bool Network::connect(std::string boxOut, std::string outName, std::string boxIn, std::string inName)
+    // This should check everyting - boxes existing, boxes containing the named ports, and port type (checked in OutputPort.connect())
     {
-        // need to check here
         auto it1 = mBoxes.find(boxOut);
+        if (it1 == mBoxes.end()) {
+            return false;
+        }
         auto it2 = mBoxes.find(boxIn);
-        // attempt the connect
-        return (it1->second)->outputPort(outName).connect((it2->second)->inputPort(inName));
+        if (it2 == mBoxes.end()) {
+            return false;
+        }
+        if ((it1->second)->hasOutput(outName) && (it2->second)->hasInput(inName)) {
+            return (it1->second)->outputPort(outName).connect((it2->second)->inputPort(inName));
+        }
+        return false;
     }
     
     bool Network::isRunnable() {
@@ -45,7 +53,7 @@ namespace NLP {
         /*
         // isRunnable indicates we are capable of running
         while(isRunnable()) {
-            // iterate over all the components and try execution
+            // iterate over all the components and to run them
             for(auto it = mBoxes.begin(); it != mBoxes.end(); ++it) {
                 (it->second)->execute();
             }
