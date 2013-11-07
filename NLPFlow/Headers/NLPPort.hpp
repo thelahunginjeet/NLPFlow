@@ -18,6 +18,7 @@ namespace NLP {
     // header-only packet stuff
     typedef boost::variant<std::string,int> packet_t;
     
+    // I've deprecated the next two in favor of dropNextPacket.
     // this does the get() but has to be called as get<type>(packet)
     template<typename T>
     T fetchPacketData(packet_t& p) {
@@ -30,20 +31,18 @@ namespace NLP {
         var = boost::get<T>(p);
     };
     
-    // is this going to work?
-    //template<typename T>
-    //void dropNextPacket(std::queue<packet_t>& q, T& var) {
-    //    var = boost::get<T>(q.front());
-    //    q.pop();
-    //}
-    
     class Port {
     public:
         typedef boost::signals2::signal<void (packet_t)> Emitter;
         typedef boost::signals2::connection Wire;
         
-        Port(std::string name);
+        enum PORT_TYPE {
+            TYPE_INT, TYPE_STR, TYPE_NULL
+        };
+        
+        Port(std::string name, PORT_TYPE ptype);
         const std::string name() const;
+        const PORT_TYPE type() const;
         void open();
         void close();
         bool isOpen();
@@ -51,12 +50,13 @@ namespace NLP {
     protected:
         bool mOpen;
         std::string mName;
+        PORT_TYPE mType;
         
     };
     
     class InputPort : public Port {
     public:
-        InputPort(std::string name = "IN");
+        InputPort(std::string name = "IN", PORT_TYPE ptype = TYPE_NULL);
         void receive(packet_t p);
         const bool packetsReady() const;
         
@@ -73,7 +73,7 @@ namespace NLP {
     
     class OutputPort : public Port {
     public:
-        OutputPort(std::string name="OUT");
+        OutputPort(std::string name="OUT", PORT_TYPE ptype = TYPE_NULL);
         void send(packet_t p);
         bool connect(InputPort& port);
         bool canConnect(InputPort& port);

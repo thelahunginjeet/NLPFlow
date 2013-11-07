@@ -53,18 +53,21 @@ namespace NLP {
         void execute();
     };
     
+    // tokenizer
     class Tokenizer : public Component {
     public:
         Tokenizer(std::string name = "Tokenizer");
         void execute();
     };
     
+    // splitter that sends the same output to two different locations
     class BinaryStringDuplicator : public Component {
     public:
         BinaryStringDuplicator(std::string name = "StringDuplicator");
         void execute();
     };
     
+    // counts its inputs
     class StringCounter : public Component {
     public:
         StringCounter(std::string name = "Counter");

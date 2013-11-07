@@ -51,7 +51,7 @@ namespace NLP {
     TextReader::TextReader(std::string name) : Component(name) {
         // no input ports; only a single output port
         std::string outName = "TXTOUT";
-        mOutputs.insert(outName,new OutputPort("TXTOUT"));
+        mOutputs.insert(outName,new OutputPort("TXTOUT",Port::TYPE_STR));
     }
     
     void TextReader::execute() {
@@ -75,7 +75,7 @@ namespace NLP {
     TextWriter::TextWriter(std::string name) : Component(name) {
         // has no output port; only a single input port
         std::string inName = "TXTIN";
-        mInputs.insert(inName,new InputPort("TXTIN"));
+        mInputs.insert(inName,new InputPort("TXTIN",Port::TYPE_STR));
     }
     
     void TextWriter::execute() {
@@ -94,7 +94,7 @@ namespace NLP {
     IntWriter::IntWriter(std::string name) : Component(name) {
         // one input, no outputs
         std::string inName = "INTIN";
-        mInputs.insert(inName,new InputPort("INTIN"));
+        mInputs.insert(inName,new InputPort("INTIN",Port::TYPE_INT));
     }
     
     void IntWriter::execute() {
@@ -113,8 +113,8 @@ namespace NLP {
         // one input, one output
         std::string inName = "TXTIN";
         std::string outName = "TXTOUT";
-        mInputs.insert(inName,new InputPort("TXTIN"));
-        mOutputs.insert(outName,new OutputPort("TXTOUT"));
+        mInputs.insert(inName,new InputPort("TXTIN",Port::TYPE_STR));
+        mOutputs.insert(outName,new OutputPort("TXTOUT",Port::TYPE_STR));
     }
     
     void Tokenizer::execute() {
@@ -143,9 +143,9 @@ namespace NLP {
         std::string inName = "IN";
         std::string out1 = "OUT1";
         std::string out2 = "OUT2";
-        mInputs.insert(inName,new InputPort("IN"));
-        mOutputs.insert(out1,new OutputPort("OUT1"));
-        mOutputs.insert(out2,new OutputPort("OUT2"));
+        mInputs.insert(inName,new InputPort("IN",Port::TYPE_STR));
+        mOutputs.insert(out1,new OutputPort("OUT1",Port::TYPE_STR));
+        mOutputs.insert(out2,new OutputPort("OUT2",Port::TYPE_STR));
     }
     
     void BinaryStringDuplicator::execute() {
@@ -167,8 +167,8 @@ namespace NLP {
         // one string input, one integer output
         std::string inName = "TXTIN";
         std::string outName = "INTOUT";
-        mInputs.insert(inName, new InputPort("TXTIN"));
-        mOutputs.insert(outName, new OutputPort("INTOUT"));
+        mInputs.insert(inName, new InputPort("TXTIN",Port::TYPE_STR));
+        mOutputs.insert(outName, new OutputPort("INTOUT",Port::TYPE_INT));
         mCount = 0;
     }
     

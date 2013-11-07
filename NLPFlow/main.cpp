@@ -13,30 +13,13 @@ int testnetwork() {
     // create the network
     NLP::NLPNetwork network;
     // setup
-    network.define();
-    // run
-    network.run();
-    // define the reader and writer
-    //NLP::TextReaderNode reader;
-    //NLP::StringWriterNode writer;
-    //NLP::Tokenizer tokenizer;
-    // port names are not paid attention to here
-    //reader.connectPort(tokenizer,"STROUT","STRIN");
-    //tokenizer.connectPort(writer,"STROUT","STRIN");
-    //reader.read("./Tests/smalltest.txt");
-    return 0;
-}
-
-
-int testvariant() {
-    NLP::packet_t p = 1;
-    int j;
-    NLP::fillPacketData(p,j);
-    std::cout << "Packet contains " << j << std::endl;
-    p = "Hello, World!";
-    std::string s;
-    NLP::fillPacketData(p,s);
-    std::cout << "Packet contains " << s << std::endl;
+    bool isOK = network.define();
+    // run if the network is hooked up correctly
+    if(isOK) {
+        network.run();
+    } else {
+        std::cout << "Network is not properly wired up." << std::endl;
+    }
     return 0;
 }
 

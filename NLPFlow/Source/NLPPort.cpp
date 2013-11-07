@@ -12,10 +12,14 @@ namespace NLP {
     
 # pragma mark - Port methods
     
-    Port::Port(std::string name) : mName(name), mOpen(false) {}
+    Port::Port(std::string name, PORT_TYPE ptype) : mName(name), mType(ptype), mOpen(false) {}
     
     const std::string Port::name() const {
         return mName;
+    }
+    
+    const Port::PORT_TYPE Port::type() const {
+        return mType;
     }
     
     void Port::open() {
@@ -32,7 +36,7 @@ namespace NLP {
     
 # pragma mark - InputPort methods
     
-    InputPort::InputPort(std::string name) : Port(name) {}
+    InputPort::InputPort(std::string name, PORT_TYPE ptype) : Port(name, ptype) {}
     
     void InputPort::receive(packet_t p) {
         // put the packet into the queue
@@ -47,7 +51,7 @@ namespace NLP {
     
 # pragma mark - OutputPort methods
     
-    OutputPort::OutputPort(std::string name) : Port(name) {}
+    OutputPort::OutputPort(std::string name, PORT_TYPE ptype) : Port(name, ptype) {}
         
     void OutputPort::send(packet_t p) {
         // send the packet and close the port after send
@@ -57,7 +61,13 @@ namespace NLP {
     }
     
     bool OutputPort::canConnect(InputPort& port) {
-        return true;
+        // checks compatible type AND insures type has been set for port
+        PORT_TYPE oType = type();
+        PORT_TYPE iType = port.type();
+        if((oType == iType) && (oType != TYPE_NULL) && (iType != TYPE_NULL)) {
+            return true;
+        }
+        return false;
     }
     
     bool OutputPort::connect(InputPort& port) {

@@ -16,10 +16,11 @@ namespace NLP {
     
     bool Network::connect(std::string boxOut, std::string outName, std::string boxIn, std::string inName)
     {
+        // need to check here
         auto it1 = mBoxes.find(boxOut);
         auto it2 = mBoxes.find(boxIn);
-        (it1->second)->outputPort(outName).connect((it2->second)->inputPort(inName));
-        return true;
+        // attempt the connect
+        return (it1->second)->outputPort(outName).connect((it2->second)->inputPort(inName));
     }
     
     bool Network::isRunnable() {
@@ -72,13 +73,19 @@ namespace NLP {
         std::string txtwriter = "TXTWRITER";
         mBoxes.insert(txtwriter, new TextWriter("TXTWRITER"));
         // connectivity
-        connect(reader,"TXTOUT",tokenizer,"TXTIN");
-        connect(tokenizer,"TXTOUT",splitter,"IN");
-        connect(splitter,"OUT1",txtwriter,"TXTIN");
-        connect(splitter,"OUT2",counter,"TXTIN");
-        connect(counter,"INTOUT",intwriter,"INTIN");
-        // can use this to check if network OK
-        return true;
+        bool isWiredUp = true;
+        isWiredUp = isWiredUp && connect(reader,"TXTOUT",tokenizer,"TXTIN");
+        isWiredUp = isWiredUp && connect(tokenizer,"TXTOUT",splitter,"IN");
+        isWiredUp = isWiredUp && connect(splitter,"OUT1",txtwriter,"TXTIN");
+        isWiredUp = isWiredUp && connect(splitter,"OUT2",counter,"TXTIN");
+        isWiredUp = isWiredUp && connect(counter,"INTOUT",intwriter,"INTIN");
+        // should be true if everything is ok
+        return isWiredUp;
+    }
+    
+    void NLPNetwork::test() {
+
+        
     }
     
 }

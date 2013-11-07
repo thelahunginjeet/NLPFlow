@@ -10,11 +10,12 @@
 #define NLP_NLPNetwork_npp
 
 #include "NLPComponent.hpp"
+#include "NLPTesting.hpp"
 
 namespace NLP {
     
     // abstract base class
-    class Network {
+    class Network : public Testable {
     public:
         Network();
         bool connect(std::string boxOut, std::string portOut, std::string boxIn, std::string portIn);
@@ -32,6 +33,7 @@ namespace NLP {
     public:
         NLPNetwork();
         bool define();
+        static void test();
     };
 }
 

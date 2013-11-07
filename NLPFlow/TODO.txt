@@ -1,6 +1,5 @@
 NEXTUP:
--type safety in box connections (enum that is set at box creation, check connections)
--get rid of string matching for port selection
+-add parameter port to try to avoid ad-hoc network.run()
 
 TODO:
 -make a types header
@@ -9,7 +8,8 @@ TODO:
 -add error ports (they could handle the thrown errors)
 -if we keep boost::variant, need to handle the bad gets
 -probably need pImpl everywhere eventually
--get rid of string matching for everything (one problem at a time . . .)
+-get rid of string matching for port selection? (go to enum for ports IN0, IN1, ... , OUT0, OUT1, ...)
+-handle fails on find()/at() in maps
 
 
 QUESTIONS:
