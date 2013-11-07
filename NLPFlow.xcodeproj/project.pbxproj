@@ -9,18 +9,24 @@
 /* Begin PBXBuildFile section */
 		8BB93A781816FD0500E252BC /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8BB93A771816FD0500E252BC /* main.cpp */; };
 		8BB93A7A1816FD0500E252BC /* NLPFlow.1 in CopyFiles */ = {isa = PBXBuildFile; fileRef = 8BB93A791816FD0500E252BC /* NLPFlow.1 */; };
+		8BB93A89181713F000E252BC /* smalltest.txt in CopyFiles */ = {isa = PBXBuildFile; fileRef = 8BB93A88181711B600E252BC /* smalltest.txt */; };
+		8BB93A8C18196B4200E252BC /* NLPPort.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8BB93A8A18196B4200E252BC /* NLPPort.cpp */; };
+		8BB93A8F1819819A00E252BC /* NLPTesting.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8BB93A8D1819819A00E252BC /* NLPTesting.cpp */; };
+		8BB93A9218199CEC00E252BC /* NLPComponent.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8BB93A9018199CEC00E252BC /* NLPComponent.cpp */; };
+		8BB93A951819A58800E252BC /* NLPNetwork.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8BB93A931819A58800E252BC /* NLPNetwork.cpp */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
 		8BB93A721816FD0500E252BC /* CopyFiles */ = {
 			isa = PBXCopyFilesBuildPhase;
-			buildActionMask = 2147483647;
-			dstPath = /usr/share/man/man1/;
-			dstSubfolderSpec = 0;
+			buildActionMask = 12;
+			dstPath = Tests;
+			dstSubfolderSpec = 16;
 			files = (
+				8BB93A89181713F000E252BC /* smalltest.txt in CopyFiles */,
 				8BB93A7A1816FD0500E252BC /* NLPFlow.1 in CopyFiles */,
 			);
-			runOnlyForDeploymentPostprocessing = 1;
+			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXCopyFilesBuildPhase section */
 
@@ -28,6 +34,17 @@
 		8BB93A741816FD0500E252BC /* NLPFlow */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = NLPFlow; sourceTree = BUILT_PRODUCTS_DIR; };
 		8BB93A771816FD0500E252BC /* main.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = main.cpp; sourceTree = "<group>"; };
 		8BB93A791816FD0500E252BC /* NLPFlow.1 */ = {isa = PBXFileReference; lastKnownFileType = text.man; path = NLPFlow.1; sourceTree = "<group>"; };
+		8BB93A821816FD7D00E252BC /* NLP.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = NLP.hpp; path = NLPFlow/Headers/NLP.hpp; sourceTree = "<group>"; };
+		8BB93A861816FFA000E252BC /* TODO.txt */ = {isa = PBXFileReference; explicitFileType = text; fileEncoding = 4; name = TODO.txt; path = NLPFlow/TODO.txt; sourceTree = "<group>"; };
+		8BB93A88181711B600E252BC /* smalltest.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = smalltest.txt; path = NLPFlow/Tests/smalltest.txt; sourceTree = SOURCE_ROOT; };
+		8BB93A8A18196B4200E252BC /* NLPPort.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = NLPPort.cpp; path = NLPFlow/Source/NLPPort.cpp; sourceTree = "<group>"; };
+		8BB93A8B18196B4200E252BC /* NLPPort.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = NLPPort.hpp; path = NLPFlow/Headers/NLPPort.hpp; sourceTree = "<group>"; };
+		8BB93A8D1819819A00E252BC /* NLPTesting.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = NLPTesting.cpp; path = NLPFlow/Source/NLPTesting.cpp; sourceTree = "<group>"; };
+		8BB93A8E1819819A00E252BC /* NLPTesting.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = NLPTesting.hpp; path = NLPFlow/Headers/NLPTesting.hpp; sourceTree = "<group>"; };
+		8BB93A9018199CEC00E252BC /* NLPComponent.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = NLPComponent.cpp; path = NLPFlow/Source/NLPComponent.cpp; sourceTree = "<group>"; };
+		8BB93A9118199CEC00E252BC /* NLPComponent.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = NLPComponent.hpp; path = NLPFlow/Headers/NLPComponent.hpp; sourceTree = "<group>"; };
+		8BB93A931819A58800E252BC /* NLPNetwork.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = NLPNetwork.cpp; path = NLPFlow/Source/NLPNetwork.cpp; sourceTree = "<group>"; };
+		8BB93A941819A58800E252BC /* NLPNetwork.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = NLPNetwork.hpp; path = NLPFlow/Headers/NLPNetwork.hpp; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -44,8 +61,12 @@
 		8BB93A6B1816FD0500E252BC = {
 			isa = PBXGroup;
 			children = (
+				8BB93A861816FFA000E252BC /* TODO.txt */,
+				8BB93A811816FD2D00E252BC /* Headers */,
+				8BB93A801816FD2700E252BC /* Source */,
 				8BB93A761816FD0500E252BC /* NLPFlow */,
 				8BB93A751816FD0500E252BC /* Products */,
+				8BB93A871817118A00E252BC /* Tests */,
 			);
 			sourceTree = "<group>";
 		};
@@ -64,6 +85,37 @@
 				8BB93A791816FD0500E252BC /* NLPFlow.1 */,
 			);
 			path = NLPFlow;
+			sourceTree = "<group>";
+		};
+		8BB93A801816FD2700E252BC /* Source */ = {
+			isa = PBXGroup;
+			children = (
+				8BB93A931819A58800E252BC /* NLPNetwork.cpp */,
+				8BB93A9018199CEC00E252BC /* NLPComponent.cpp */,
+				8BB93A8D1819819A00E252BC /* NLPTesting.cpp */,
+				8BB93A8A18196B4200E252BC /* NLPPort.cpp */,
+			);
+			name = Source;
+			sourceTree = "<group>";
+		};
+		8BB93A811816FD2D00E252BC /* Headers */ = {
+			isa = PBXGroup;
+			children = (
+				8BB93A941819A58800E252BC /* NLPNetwork.hpp */,
+				8BB93A8E1819819A00E252BC /* NLPTesting.hpp */,
+				8BB93A8B18196B4200E252BC /* NLPPort.hpp */,
+				8BB93A9118199CEC00E252BC /* NLPComponent.hpp */,
+				8BB93A821816FD7D00E252BC /* NLP.hpp */,
+			);
+			name = Headers;
+			sourceTree = "<group>";
+		};
+		8BB93A871817118A00E252BC /* Tests */ = {
+			isa = PBXGroup;
+			children = (
+				8BB93A88181711B600E252BC /* smalltest.txt */,
+			);
+			name = Tests;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -117,7 +169,11 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				8BB93A9218199CEC00E252BC /* NLPComponent.cpp in Sources */,
+				8BB93A951819A58800E252BC /* NLPNetwork.cpp in Sources */,
+				8BB93A8C18196B4200E252BC /* NLPPort.cpp in Sources */,
 				8BB93A781816FD0500E252BC /* main.cpp in Sources */,
+				8BB93A8F1819819A00E252BC /* NLPTesting.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -195,6 +251,11 @@
 		8BB93A7E1816FD0500E252BC /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				HEADER_SEARCH_PATHS = (
+					"$(inherited)",
+					/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include,
+					/opt/boost,
+				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
 			name = Debug;
@@ -202,6 +263,11 @@
 		8BB93A7F1816FD0500E252BC /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				HEADER_SEARCH_PATHS = (
+					"$(inherited)",
+					/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include,
+					/opt/boost,
+				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
 			name = Release;
@@ -225,6 +291,7 @@
 				8BB93A7F1816FD0500E252BC /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
