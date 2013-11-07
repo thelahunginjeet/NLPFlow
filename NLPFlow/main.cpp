@@ -23,7 +23,6 @@ int testnetwork() {
     return 0;
 }
 
-
 int main(int argc, const char * argv[]) {
     testnetwork();
     return 0;

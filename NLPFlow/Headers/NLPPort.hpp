@@ -18,7 +18,6 @@ namespace NLP {
     // header-only packet stuff
     typedef boost::variant<std::string,int> packet_t;
     
-    // I've deprecated the next two in favor of dropNextPacket.
     // this does the get() but has to be called as get<type>(packet)
     template<typename T>
     T fetchPacketData(packet_t& p) {
@@ -45,7 +44,7 @@ namespace NLP {
         const PORT_TYPE type() const;
         void open();
         void close();
-        bool isOpen();
+        virtual bool isOpen();
     
     protected:
         bool mOpen;
@@ -54,11 +53,26 @@ namespace NLP {
         
     };
     
+    class ParameterPort : public Port {
+    public:
+        ParameterPort(std::string name="PARAMETER", PORT_TYPE ptype = TYPE_NULL);
+        void receive(packet_t p);
+        
+        template<typename T>
+        T fetchParameter() {
+            return boost::get<T>(mParameter);
+        }
+        
+    private:
+        packet_t mParameter;
+    };
+    
     class InputPort : public Port {
     public:
         InputPort(std::string name = "IN", PORT_TYPE ptype = TYPE_NULL);
         void receive(packet_t p);
         const bool packetsReady() const;
+        virtual bool isOpen();
         
         template<typename T>
         void dropNextPacket(T& var) {
@@ -82,8 +96,7 @@ namespace NLP {
     private:
         Emitter mEmitter;
         Wire mWire;
-    };
-    
+    };    
     
 }
 

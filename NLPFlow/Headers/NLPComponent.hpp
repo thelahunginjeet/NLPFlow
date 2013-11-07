@@ -21,6 +21,7 @@ namespace NLP {
         const std::string name() const;
         InputPort& inputPort(std::string name);
         OutputPort& outputPort(std::string name);
+        ParameterPort& parameterPort();
         bool hasInput(std::string name);
         bool hasOutput(std::string name);
         bool hasOpenPorts();
@@ -31,6 +32,8 @@ namespace NLP {
         std::string mName;
         boost::ptr_map<std::string,OutputPort> mOutputs;
         boost::ptr_map<std::string,InputPort> mInputs;
+        // currently only allowing a single parameter port
+        ParameterPort mParamPort;
     };
     
     
@@ -66,6 +69,13 @@ namespace NLP {
     class BinaryStringDuplicator : public Component {
     public:
         BinaryStringDuplicator(std::string name = "StringDuplicator");
+        void execute();
+    };
+    
+    // selector that sends strings <= size to one output and > to another
+    class StringSizeSelector : public Component {
+    public:
+        StringSizeSelector(std::string name = "SizeSelector");
         void execute();
     };
     

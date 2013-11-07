@@ -42,23 +42,25 @@ namespace NLP {
     
     void Network::run() {
         std::cout << "<FLOW START>" << std::endl;
-        // HACK TO MAKE THINGS GO
-        mBoxes.at("READER").execute();
-        mBoxes.at("TOKENIZER").execute();
-        mBoxes.at("SPLITTER").execute();
-        mBoxes.at("TXTWRITER").execute();
-        mBoxes.at("COUNTER").execute();
-        mBoxes.at("INTWRITER").execute();
-        // This is where we want to go
-        /*
-        // isRunnable indicates we are capable of running
+        // this runs the network until there is nothing to do
         while(isRunnable()) {
+            // a lot of these statements are just for debugging
+            std::cout << "In run loop . . ." << std::endl;
             // iterate over all the components and to run them
             for(auto it = mBoxes.begin(); it != mBoxes.end(); ++it) {
-                (it->second)->execute();
+                std::cout << "Component '"  << (it->first) << "' in state ";
+                std::string state;
+                if((it->second)->hasOpenPorts()) {
+                    state = "OPEN";
+                } else {
+                    state = "CLOSED";
+                }
+                std::cout << state << std::endl;
+                if((it->second)->hasOpenPorts()) {
+                    (it->second)->execute();
+                }
             }
         }
-         */
         std:: cout << "<FLOW END>" << std::endl;
     }
     
@@ -72,28 +74,28 @@ namespace NLP {
         mBoxes.insert(reader, new TextReader("TextReader"));
         std::string tokenizer = "TOKENIZER";
         mBoxes.insert(tokenizer, new Tokenizer("Tokenizer"));
-        std::string splitter = "SPLITTER";
-        mBoxes.insert(splitter, new BinaryStringDuplicator("Splitter"));
+        std::string selector = "SELECTOR";
+        mBoxes.insert(selector, new StringSizeSelector("Selector"));
         std::string counter = "COUNTER";
         mBoxes.insert(counter, new StringCounter("Counter"));
         std::string intwriter = "INTWRITER";
-        mBoxes.insert(intwriter, new IntWriter("INTWRITER"));
+        mBoxes.insert(intwriter, new IntWriter("IntWriter"));
         std::string txtwriter = "TXTWRITER";
-        mBoxes.insert(txtwriter, new TextWriter("TXTWRITER"));
+        mBoxes.insert(txtwriter, new TextWriter("TxtWriter"));
         // connectivity
         bool isWiredUp = true;
         isWiredUp = isWiredUp && connect(reader,"TXTOUT",tokenizer,"TXTIN");
-        isWiredUp = isWiredUp && connect(tokenizer,"TXTOUT",splitter,"IN");
-        isWiredUp = isWiredUp && connect(splitter,"OUT1",txtwriter,"TXTIN");
-        isWiredUp = isWiredUp && connect(splitter,"OUT2",counter,"TXTIN");
+        isWiredUp = isWiredUp && connect(tokenizer,"TXTOUT",selector,"IN");
+        isWiredUp = isWiredUp && connect(selector,"OUT_T",txtwriter,"TXTIN");
+        isWiredUp = isWiredUp && connect(selector,"OUT_F",counter,"TXTIN");
         isWiredUp = isWiredUp && connect(counter,"INTOUT",intwriter,"INTIN");
+        // parameters to boxes that need them
+        packet_t sourceFile = "./Tests/smalltest.txt";
+        mBoxes.at("READER").parameterPort().receive(sourceFile);
+        packet_t threshold = 3;
+        mBoxes.at("SELECTOR").parameterPort().receive(threshold);
         // should be true if everything is ok
         return isWiredUp;
-    }
-    
-    void NLPNetwork::test() {
-
-        
     }
     
 }

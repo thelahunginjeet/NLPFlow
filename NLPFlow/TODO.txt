@@ -1,20 +1,17 @@
 NEXTUP:
--add parameter port to try to avoid ad-hoc network.run()
+
 
 TODO:
 -make a types header
--think hard about port opening/closing; current implementation is confusing (without multithreading, this is probably only relevant for multithreading and getting the network to run)
--add parameter ports (open parameter port an easy way to start the network running)
 -add error ports (they could handle the thrown errors)
 -if we keep boost::variant, need to handle the bad gets
 -probably need pImpl everywhere eventually
 -remove some of the string matching
+-reintroduce message stage (so packet_t goes into a class) for calculations where you have to hold everything until the end (or allocate some member only at the beginning)
 
 
 QUESTIONS:
 -boost::variant the best way to handle the packets?  boost::get seems fine if we aren't manipulating the packet contents, and we cannot use visitors anyway because they are designed to avoid exposing the contents
--who should manage port openings/closing?  At the port level, or at component level?
 -hide the port implementation?
--consolidate in Ports?  would clean things up (1 port map instead of input/output maps), but safety could be an issue, as you could potentially hook things up backwards
--worried about dangerous stuff with my map of boxes; I think I need some kind of container of pointers because Container is abstract, though
--boost::ptr_map may be a bad idea b/c it internally uses void* as the pointer storage
+-boost::ptr_map may be a bad idea b/c it internally uses void* as the pointer storage, but Container is abstract so there isn't a lot of choice
+-will the port opening/closing I have work with multithreading?

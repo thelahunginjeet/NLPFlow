@@ -34,6 +34,16 @@ namespace NLP {
         return mOpen;
     }
     
+# pragma mark - ParameterPort methods
+    ParameterPort::ParameterPort(std::string name, PORT_TYPE ptype) : Port(name, ptype) {}
+    
+    void ParameterPort::receive(packet_t p) {
+        // hold the parameter and open
+        mParameter = p;
+        mOpen = true;
+        return;
+    }
+    
 # pragma mark - InputPort methods
     
     InputPort::InputPort(std::string name, PORT_TYPE ptype) : Port(name, ptype) {}
@@ -41,22 +51,21 @@ namespace NLP {
     void InputPort::receive(packet_t p) {
         // put the packet into the queue
         mPackets.push(p);
-        mOpen = true;
         return;
     }
     
-    const bool InputPort::packetsReady() const {
+    bool InputPort::isOpen() {
         return (mPackets.size() > 0) ? true : false;
     }
+    
     
 # pragma mark - OutputPort methods
     
     OutputPort::OutputPort(std::string name, PORT_TYPE ptype) : Port(name, ptype) {}
         
     void OutputPort::send(packet_t p) {
-        // send the packet and close the port after send
+        // send the packet
         mEmitter(p);
-        mOpen  = false;
         return;
     }
     
