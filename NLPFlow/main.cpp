@@ -9,6 +9,7 @@
 #include "NLP.hpp"
 #include <iostream>
 
+
 int testnetwork() {
     // create the network
     NLP::NLPNetwork network;

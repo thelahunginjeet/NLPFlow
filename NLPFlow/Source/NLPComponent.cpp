@@ -100,7 +100,7 @@ namespace NLP {
     void TextReader::execute() {
         std::cout << "TextReader.execute()" << std::endl;
         // get the read location from the parameter port
-        std::string fileName = mParamPort.fetchParameter<std::string>();
+        std::string fileName = (mParamPort.parameter()).fetchPacketData<std::string>();
         std::ifstream handle(fileName.c_str(), std::ios_base::in);
         std::string line;
         if (!handle.good()) {
@@ -109,7 +109,7 @@ namespace NLP {
         mOutputs.at("TXTOUT").open();
         while(handle.good()) {
             std::getline(handle,line);
-            packet_t output = line;
+            Packet output = Packet(line);
             mOutputs.at("TXTOUT").send(output);
         }
         // close the ports
@@ -129,11 +129,11 @@ namespace NLP {
     void TextWriter::execute() {
         std::cout << "TextWriter.execute()" << std::endl;
         // process packet
-        std::string toWrite;
+        Packet toWrite;
         // empty the input queue
         while(mInputs.at("TXTIN").isOpen()) {
             mInputs.at("TXTIN").dropNextPacket(toWrite);
-            std::cout << toWrite << std::endl;
+            std::cout << toWrite.fetchPacketData<std::string>() << std::endl;
         }
         return;
     }
@@ -148,11 +148,11 @@ namespace NLP {
     
     void IntWriter::execute() {
         std::cout << "IntWriter.execute()" << std::endl;
-        int toWrite;
+        Packet toWrite;
         // empty the queue
         while(mInputs.at("INTIN").isOpen()) {
             mInputs.at("INTIN").dropNextPacket(toWrite);
-            std::cout << "Integer packet value = " << toWrite << std::endl;
+            std::cout << "Integer packet value = " << toWrite.fetchPacketData<int>() << std::endl;
         }
         return;
     }
@@ -172,16 +172,16 @@ namespace NLP {
         // for tokenizing
         boost::char_separator<char> sep(", \t\n");
         // process packets
-        std::string toTokenize;
+        Packet toTokenize;
         // empty the input queue and tokenize one at a time
         while(mInputs.at("TXTIN").isOpen()) {
             mInputs.at("TXTIN").dropNextPacket(toTokenize);
             // tokenize
-            boost::tokenizer<boost::char_separator<char>> tokenizer(toTokenize,sep);
+            boost::tokenizer<boost::char_separator<char>> tokenizer(toTokenize.fetchPacketData<std::string>(),sep);
             // throw the tokens
             mOutputs.at("TXTOUT").open();
             for(const auto& t : tokenizer) {
-                packet_t p = std::string(t);
+                Packet p = Packet(std::string(t));
                 mOutputs.at("TXTOUT").send(p);
             }
             mOutputs.at("TXTOUT").close();
@@ -204,13 +204,13 @@ namespace NLP {
     void BinaryStringDuplicator::execute() {
         std::cout << "BinaryStringDuplicator.execute()" << std::endl;
         // process packets
-        std::string toSend;
+        Packet toSend;
         while(mInputs.at("IN").isOpen()) {
             mOutputs.at("OUT1").open();
             mOutputs.at("OUT1").open();
             mInputs.at("IN").dropNextPacket(toSend);
-            packet_t p1 = toSend;
-            packet_t p2 = toSend;
+            Packet p1 = Packet(toSend);
+            Packet p2 = Packet(toSend);
             mOutputs.at("OUT1").send(p1);
             mOutputs.at("OUT2").send(p2);
             mOutputs.at("OUT1").close();
@@ -235,12 +235,13 @@ namespace NLP {
     void StringSizeSelector::execute() {
         std::cout << "StringSizeSelector.execute()" << std::endl;
         // read the size parameter
-        int threshold = mParamPort.fetchParameter<int>();        // process packets
-        std::string toSend;
+        int threshold = (mParamPort.parameter()).fetchPacketData<int>();
+        // process packets
+        Packet p;
         while(mInputs.at("IN").isOpen()) {
-            mInputs.at("IN").dropNextPacket(toSend);
-            packet_t p = toSend;
-            if (toSend.size() <= threshold) {
+            mInputs.at("IN").dropNextPacket(p);
+            std::string data = p.fetchPacketData<std::string>();
+            if (data.size() <= threshold) {
                 mOutputs.at("OUT_T").open();
                 mOutputs.at("OUT_T").send(p);
                 mOutputs.at("OUT_T").close();
@@ -266,13 +267,13 @@ namespace NLP {
     
     void StringCounter::execute() {
         std::cout << "StringCounter.execute()" << std::endl;
-        std::string toCount;
+        Packet toCount;
         while(mInputs.at("TXTIN").isOpen()) {
             mInputs.at("TXTIN").dropNextPacket(toCount);
             mCount += 1;
         }
         // now throw the count
-        packet_t p = mCount;
+        Packet p = Packet(mCount);
         mOutputs.at("INTOUT").open();
         mOutputs.at("INTOUT").send(p);
         mOutputs.at("INTOUT").close();

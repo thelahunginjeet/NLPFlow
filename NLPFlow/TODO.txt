@@ -7,7 +7,6 @@ TODO:
 -if we keep boost::variant, need to handle the bad gets
 -probably need pImpl everywhere eventually
 -remove some of the string matching
--reintroduce message stage (so packet_t goes into a class) for calculations where you have to hold everything until the end (or allocate some member only at the beginning)
 
 
 QUESTIONS:

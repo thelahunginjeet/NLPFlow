@@ -90,9 +90,9 @@ namespace NLP {
         isWiredUp = isWiredUp && connect(selector,"OUT_F",counter,"TXTIN");
         isWiredUp = isWiredUp && connect(counter,"INTOUT",intwriter,"INTIN");
         // parameters to boxes that need them
-        packet_t sourceFile = "./Tests/smalltest.txt";
+        Packet sourceFile = Packet("./Tests/smalltest.txt");
         mBoxes.at("READER").parameterPort().receive(sourceFile);
-        packet_t threshold = 3;
+        Packet threshold = Packet(3);
         mBoxes.at("SELECTOR").parameterPort().receive(threshold);
         // should be true if everything is ok
         return isWiredUp;

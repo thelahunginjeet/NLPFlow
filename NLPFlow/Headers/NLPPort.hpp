@@ -9,30 +9,15 @@
 #ifndef NLP_NLPPort_hpp
 #define NLP_NLPPort_hpp
 
+#include "NLPPacket.hpp"
 #include <boost/signals2/signal.hpp>
-#include <boost/variant.hpp>
 #include <queue>
 
 namespace NLP {
-
-    // header-only packet stuff
-    typedef boost::variant<std::string,int> packet_t;
-    
-    // this does the get() but has to be called as get<type>(packet)
-    template<typename T>
-    T fetchPacketData(packet_t& p) {
-        return boost::get<T>(p);
-    };
-    
-    // this one is a void and puts the value into a supplied variable
-    template<typename T>
-    void fillPacketData(packet_t& p, T& var) {
-        var = boost::get<T>(p);
-    };
     
     class Port {
     public:
-        typedef boost::signals2::signal<void (packet_t)> Emitter;
+        typedef boost::signals2::signal<void (Packet)> Emitter;
         typedef boost::signals2::connection Wire;
         
         enum PORT_TYPE {
@@ -56,39 +41,36 @@ namespace NLP {
     class ParameterPort : public Port {
     public:
         ParameterPort(std::string name="PARAMETER", PORT_TYPE ptype = TYPE_NULL);
-        void receive(packet_t p);
-        
-        template<typename T>
-        T fetchParameter() {
-            return boost::get<T>(mParameter);
-        }
+        void receive(Packet p);
+        Packet& parameter();
         
     private:
-        packet_t mParameter;
+        Packet mParameterPacket;
     };
     
     class InputPort : public Port {
     public:
         InputPort(std::string name = "IN", PORT_TYPE ptype = TYPE_NULL);
-        void receive(packet_t p);
+        void receive(Packet p);
         const bool packetsReady() const;
         virtual bool isOpen();
+        void dropNextPacket(Packet& p);
         
-        template<typename T>
-        void dropNextPacket(T& var) {
-            var = boost::get<T>(mPackets.front());
-            mPackets.pop();
-        }
+        //template<typename T>
+        //void dropNextPacket(T& var) {
+        //    var = boost::get<T>(mPackets.front());
+        //    mPackets.pop();
+        //}
         
     private:
-        std::queue<packet_t> mPackets;
+        std::queue<Packet> mPackets;
         
     };
     
     class OutputPort : public Port {
     public:
         OutputPort(std::string name="OUT", PORT_TYPE ptype = TYPE_NULL);
-        void send(packet_t p);
+        void send(Packet p);
         bool connect(InputPort& port);
         bool canConnect(InputPort& port);
         bool disconnect();
