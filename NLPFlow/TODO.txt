@@ -1,6 +1,3 @@
-NEXTUP:
-
-
 TODO:
 -make a types header
 -add error ports (they could handle the thrown errors)
