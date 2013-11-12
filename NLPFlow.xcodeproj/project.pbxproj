@@ -14,6 +14,7 @@
 		8BB93A8F1819819A00E252BC /* NLPTesting.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8BB93A8D1819819A00E252BC /* NLPTesting.cpp */; };
 		8BB93A9218199CEC00E252BC /* NLPComponent.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8BB93A9018199CEC00E252BC /* NLPComponent.cpp */; };
 		8BB93A951819A58800E252BC /* NLPNetwork.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8BB93A931819A58800E252BC /* NLPNetwork.cpp */; };
+		8BBCD7F5182D5F3500C6B81F /* NLPPacket.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8BBCD7F3182D5F3500C6B81F /* NLPPacket.cpp */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -45,6 +46,8 @@
 		8BB93A9118199CEC00E252BC /* NLPComponent.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = NLPComponent.hpp; path = NLPFlow/Headers/NLPComponent.hpp; sourceTree = "<group>"; };
 		8BB93A931819A58800E252BC /* NLPNetwork.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = NLPNetwork.cpp; path = NLPFlow/Source/NLPNetwork.cpp; sourceTree = "<group>"; };
 		8BB93A941819A58800E252BC /* NLPNetwork.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = NLPNetwork.hpp; path = NLPFlow/Headers/NLPNetwork.hpp; sourceTree = "<group>"; };
+		8BBCD7F3182D5F3500C6B81F /* NLPPacket.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = NLPPacket.cpp; path = NLPFlow/Source/NLPPacket.cpp; sourceTree = "<group>"; };
+		8BBCD7F6182D5F7800C6B81F /* NLPPacket.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = NLPPacket.hpp; path = NLPFlow/Headers/NLPPacket.hpp; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -94,6 +97,7 @@
 				8BB93A9018199CEC00E252BC /* NLPComponent.cpp */,
 				8BB93A8D1819819A00E252BC /* NLPTesting.cpp */,
 				8BB93A8A18196B4200E252BC /* NLPPort.cpp */,
+				8BBCD7F3182D5F3500C6B81F /* NLPPacket.cpp */,
 			);
 			name = Source;
 			sourceTree = "<group>";
@@ -101,6 +105,7 @@
 		8BB93A811816FD2D00E252BC /* Headers */ = {
 			isa = PBXGroup;
 			children = (
+				8BBCD7F6182D5F7800C6B81F /* NLPPacket.hpp */,
 				8BB93A941819A58800E252BC /* NLPNetwork.hpp */,
 				8BB93A8E1819819A00E252BC /* NLPTesting.hpp */,
 				8BB93A8B18196B4200E252BC /* NLPPort.hpp */,
@@ -171,6 +176,7 @@
 			files = (
 				8BB93A9218199CEC00E252BC /* NLPComponent.cpp in Sources */,
 				8BB93A951819A58800E252BC /* NLPNetwork.cpp in Sources */,
+				8BBCD7F5182D5F3500C6B81F /* NLPPacket.cpp in Sources */,
 				8BB93A8C18196B4200E252BC /* NLPPort.cpp in Sources */,
 				8BB93A781816FD0500E252BC /* main.cpp in Sources */,
 				8BB93A8F1819819A00E252BC /* NLPTesting.cpp in Sources */,
