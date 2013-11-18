@@ -18,6 +18,10 @@ namespace NLP {
     Component::Component(std::string name) : mName(name) {
         // default parameter port with TYPE_NULL
         mParamPort = ParameterPort("EMPTY",Port::TYPE_NULL);
+        // log and parameter ports have fixed names/types (they cannot be
+        //  connected to anything anyway)
+        mLogPort = LogPort();
+        mErrorPort = ErrorPort();
     }
     
     const std::string Component::name() const {
@@ -98,13 +102,13 @@ namespace NLP {
     }
     
     void TextReader::execute() {
-        std::cout << "TextReader.execute()" << std::endl;
+        mLogPort.send("TextReader.execute()\n");
         // get the read location from the parameter port
         std::string fileName = (mParamPort.parameter()).fetchPacketData<std::string>();
         std::ifstream handle(fileName.c_str(), std::ios_base::in);
         std::string line;
         if (!handle.good()) {
-            std::cout << "There's a problem with your file." << std::endl;
+            mErrorPort.send("There's a problem with your file.\n");
         }
         mOutputs.at("TXTOUT").open();
         while(handle.good()) {
@@ -127,13 +131,14 @@ namespace NLP {
     }
     
     void TextWriter::execute() {
-        std::cout << "TextWriter.execute()" << std::endl;
+        mLogPort.send("TextWriter.execute()\n");
         // process packet
         Packet toWrite;
         // empty the input queue
         while(mInputs.at("TXTIN").isOpen()) {
             mInputs.at("TXTIN").dropNextPacket(toWrite);
-            std::cout << toWrite.fetchPacketData<std::string>() << std::endl;
+            mLogPort.send(toWrite.fetchPacketData<std::string>());
+            mLogPort.send("\n");
         }
         return;
     }
@@ -147,12 +152,14 @@ namespace NLP {
     }
     
     void IntWriter::execute() {
-        std::cout << "IntWriter.execute()" << std::endl;
+        mLogPort.send("IntWriter.execute()\n");
+        std::stringstream stream;
         Packet toWrite;
         // empty the queue
         while(mInputs.at("INTIN").isOpen()) {
             mInputs.at("INTIN").dropNextPacket(toWrite);
-            std::cout << "Integer packet value = " << toWrite.fetchPacketData<int>() << std::endl;
+            stream << "Integer packet value = " << toWrite.fetchPacketData<int>() << std::endl;
+            mLogPort.send(stream.str());
         }
         return;
     }
@@ -168,7 +175,7 @@ namespace NLP {
     }
     
     void Tokenizer::execute() {
-        std::cout << "Tokenizer.execute()" << std::endl;
+        mLogPort.send("Tokenizer.execute()\n");
         // for tokenizing
         boost::char_separator<char> sep(", \t\n");
         // process packets
@@ -202,7 +209,7 @@ namespace NLP {
     }
     
     void BinaryStringDuplicator::execute() {
-        std::cout << "BinaryStringDuplicator.execute()" << std::endl;
+        mLogPort.send("BinaryStringDuplicator.execute()\n");
         // process packets
         Packet toSend;
         while(mInputs.at("IN").isOpen()) {
@@ -233,7 +240,7 @@ namespace NLP {
     }
     
     void StringSizeSelector::execute() {
-        std::cout << "StringSizeSelector.execute()" << std::endl;
+        mLogPort.send("StringSizeSelector.execute()\n");
         // read the size parameter
         int threshold = (mParamPort.parameter()).fetchPacketData<int>();
         // process packets
@@ -266,7 +273,7 @@ namespace NLP {
     }
     
     void StringCounter::execute() {
-        std::cout << "StringCounter.execute()" << std::endl;
+        mLogPort.send("StringCounter.execute()\n");
         Packet toCount;
         while(mInputs.at("TXTIN").isOpen()) {
             mInputs.at("TXTIN").dropNextPacket(toCount);

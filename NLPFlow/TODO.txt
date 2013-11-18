@@ -1,15 +1,12 @@
 TODO:
 -make a types header
--add error ports (they could handle the thrown errors)
 -if we keep boost::variant, need to handle the bad gets
 -probably need pImpl everywhere eventually
--remove some of the string matching
 -parameter class (don't use packets)
--error port (stderr)
--log port (stdout)
 
 
 QUESTIONS:
+-need to check/manage open/close status of log,error ports?
 -boost::variant the best way to handle the packets?  boost::get seems fine if we aren't manipulating the packet contents, and we cannot use visitors anyway because they are designed to avoid exposing the contents
 -hide the port implementation?
 -boost::ptr_map may be a bad idea b/c it internally uses void* as the pointer storage, but Container is abstract so there isn't a lot of choice

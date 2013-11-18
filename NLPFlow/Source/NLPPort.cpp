@@ -105,8 +105,17 @@ namespace NLP {
     
     ErrorPort::ErrorPort() : Port("ERROR",TYPE_STR) {}
     
-    void send(std::string errMessage) {
-        std::cerr << errMessage << std::endl;
+    void ErrorPort::send(std::string errMessage) {
+        std::cerr << errMessage;
+        return;
+    }
+    
+# pragma mark - LogPort methods
+    
+    LogPort::LogPort() : Port("LOG",TYPE_STR) {}
+    
+    void LogPort::send(std::string logMessage) {
+        std::cout << logMessage;
         return;
     }
     

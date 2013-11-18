@@ -56,12 +56,6 @@ namespace NLP {
         virtual bool isOpen();
         void dropNextPacket(Packet& p);
         
-        //template<typename T>
-        //void dropNextPacket(T& var) {
-        //    var = boost::get<T>(mPackets.front());
-        //    mPackets.pop();
-        //}
-        
     private:
         std::queue<Packet> mPackets;
         
@@ -85,6 +79,13 @@ namespace NLP {
     public:
         ErrorPort();
         void send(std::string errMessage);
+    };
+    
+    
+    class LogPort : public Port {
+    public:
+        LogPort();
+        void send(std::string logMessage);
     };
     
 }

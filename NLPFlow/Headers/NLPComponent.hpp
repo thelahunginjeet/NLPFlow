@@ -34,6 +34,8 @@ namespace NLP {
         boost::ptr_map<std::string,InputPort> mInputs;
         // currently only allowing a single parameter port
         ParameterPort mParamPort;
+        ErrorPort mErrorPort;
+        LogPort mLogPort;
     };
     
     
