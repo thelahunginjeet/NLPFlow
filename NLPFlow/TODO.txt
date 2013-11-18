@@ -1,8 +1,7 @@
 TODO:
 -make a types header
 -if we keep boost::variant, need to handle the bad gets
--probably need pImpl everywhere eventually
--parameter class (don't use packets)
+-pimpl things (like component) that expose their storage?
 
 
 QUESTIONS:

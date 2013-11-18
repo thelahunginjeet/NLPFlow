@@ -12,5 +12,7 @@
 #include "NLPPort.hpp"
 #include "NLPComponent.hpp"
 #include "NLPNetwork.hpp"
+#include "NLPParameter.hpp"
+#include "NLPPacket.hpp"
 
 #endif

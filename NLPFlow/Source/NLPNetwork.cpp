@@ -15,7 +15,10 @@ namespace NLP {
     Network::Network() { }
     
     bool Network::connect(std::string boxOut, std::string outName, std::string boxIn, std::string inName)
-    // This should check everyting - boxes existing, boxes containing the named ports, and port type (checked in OutputPort.connect())
+    // This should check everyting:
+    // - do the boxes exist?
+    // - do the boxes contained the requested ports?
+    // - does the output-input type match?
     {
         auto it1 = mBoxes.find(boxOut);
         if (it1 == mBoxes.end()) {
@@ -90,10 +93,10 @@ namespace NLP {
         isWiredUp = isWiredUp && connect(selector,"OUT_F",counter,"TXTIN");
         isWiredUp = isWiredUp && connect(counter,"INTOUT",intwriter,"INTIN");
         // parameters to boxes that need them
-        Packet sourceFile = Packet("./Tests/smalltest.txt");
-        mBoxes.at("READER").parameterPort().receive(sourceFile);
-        Packet threshold = Packet(3);
-        mBoxes.at("SELECTOR").parameterPort().receive(threshold);
+        Parameter sourceFile = Parameter("./Tests/smalltest.txt");
+        mBoxes.at("READER").parameterPort("INFILE").receive(sourceFile);
+        Parameter theshold = Parameter(3);
+        mBoxes.at("SELECTOR").parameterPort("SIZE").receive(theshold);
         // should be true if everything is ok
         return isWiredUp;
     }

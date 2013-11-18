@@ -16,8 +16,6 @@ namespace NLP {
 # pragma mark - Component methods
     
     Component::Component(std::string name) : mName(name) {
-        // default parameter port with TYPE_NULL
-        mParamPort = ParameterPort("EMPTY",Port::TYPE_NULL);
         // log and parameter ports have fixed names/types (they cannot be
         //  connected to anything anyway)
         mLogPort = LogPort();
@@ -36,8 +34,8 @@ namespace NLP {
         return mOutputs.at(name);
     }
     
-    ParameterPort& Component::parameterPort() {
-        return mParamPort;
+    ParameterPort& Component::parameterPort(std::string name) {
+        return mParameters.at(name);
     }
     
     bool Component::hasInput(std::string name) {
@@ -56,18 +54,23 @@ namespace NLP {
     
     bool Component::hasOpenPorts() {
         // component is run if the parameter AND inputs are open OR the outputs are open
-        // however, have to make sure an initial box (param but no input) can still run.
-        // if only parameter ports are open in components which also take inputs, the
-        //  network will not lock
+        // we also need to make sure an initial box (params but no inputs) can still run
+        // parOpen is true if ALL parameter ports are open
+        // parOpen is also true if the box has no parameter ports
+        // if the only open ports are parameter ports, the network will not hang
         bool parOpen = false;
         bool inOpen = false;
         bool outOpen = false;
-        // parameter checking; only use the real value if the parameter port has a real type
-        if(mParamPort.type() == Port::TYPE_NULL) {
+        // check parameter ports
+        if(mParameters.size()) {
+            for(auto it = mParameters.begin(); it != mParameters.end(); ++it) {
+                if(it->second->isOpen()) {
+                    parOpen = true;
+                    break;
+                }
+            }
+        } else {
             parOpen = true;
-        }
-        else {
-            parOpen = mParamPort.isOpen();
         }
         // input checking
         if(mInputs.size()) {
@@ -95,7 +98,8 @@ namespace NLP {
     
     TextReader::TextReader(std::string name) : Component(name) {
         // parameter port that grabs the filename
-        mParamPort = ParameterPort("FILENAME",Port::TYPE_STR);
+        std::string parName = "INFILE";
+        mParameters.insert(parName, new ParameterPort("INFILE",Port::TYPE_STR));
         // no input ports; only a single output port
         std::string outName = "TXTOUT";
         mOutputs.insert(outName,new OutputPort("TXTOUT",Port::TYPE_STR));
@@ -104,7 +108,7 @@ namespace NLP {
     void TextReader::execute() {
         mLogPort.send("TextReader.execute()\n");
         // get the read location from the parameter port
-        std::string fileName = (mParamPort.parameter()).fetchPacketData<std::string>();
+        std::string fileName = mParameters.at("INFILE").parameter().fetchParameterData<std::string>();
         std::ifstream handle(fileName.c_str(), std::ios_base::in);
         std::string line;
         if (!handle.good()) {
@@ -118,7 +122,7 @@ namespace NLP {
         }
         // close the ports
         mOutputs.at("TXTOUT").close();
-        mParamPort.close();
+        mParameters.at("INFILE").close();
         return;
     }
     
@@ -233,16 +237,17 @@ namespace NLP {
         std::string inName = "IN";
         std::string trueOut = "OUT_T";
         std::string falseOut = "OUT_F";
+        std::string paramPort = "SIZE";
         mInputs.insert(inName,new InputPort("IN",Port::TYPE_STR));
         mOutputs.insert(trueOut,new OutputPort("OUT_T",Port::TYPE_STR));
         mOutputs.insert(falseOut,new OutputPort("OUT_F",Port::TYPE_STR));
-        mParamPort = ParameterPort("SIZE",Port::TYPE_INT);
+        mParameters.insert(paramPort, new ParameterPort("SIZE",Port::TYPE_INT));
     }
     
     void StringSizeSelector::execute() {
         mLogPort.send("StringSizeSelector.execute()\n");
         // read the size parameter
-        int threshold = (mParamPort.parameter()).fetchPacketData<int>();
+        int threshold = mParameters.at("SIZE").parameter().fetchParameterData<int>();
         // process packets
         Packet p;
         while(mInputs.at("IN").isOpen()) {
@@ -258,7 +263,7 @@ namespace NLP {
                 mOutputs.at("OUT_F").close();
             }
         }
-        mParamPort.close();
+        mParameters.at("SIZE").close();
     }
     
 # pragma mark - StringCounter methods

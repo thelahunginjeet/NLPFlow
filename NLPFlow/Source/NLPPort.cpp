@@ -37,15 +37,15 @@ namespace NLP {
 # pragma mark - ParameterPort methods
     ParameterPort::ParameterPort(std::string name, PORT_TYPE ptype) : Port(name, ptype) {}
     
-    void ParameterPort::receive(Packet p) {
+    void ParameterPort::receive(Parameter p) {
         // hold the parameter and open
-        mParameterPacket = p;
+        mParameter = p;
         mOpen = true;
         return;
     }
     
-    Packet& ParameterPort::parameter() {
-        return mParameterPacket;
+    Parameter& ParameterPort::parameter() {
+        return mParameter;
     }
     
 # pragma mark - InputPort methods

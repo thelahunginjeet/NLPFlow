@@ -10,6 +10,7 @@
 #define NLP_NLPPort_hpp
 
 #include "NLPPacket.hpp"
+#include "NLPParameter.hpp"
 #include <boost/signals2/signal.hpp>
 #include <queue>
 
@@ -40,12 +41,12 @@ namespace NLP {
     
     class ParameterPort : public Port {
     public:
-        ParameterPort(std::string name="PARAMETER", PORT_TYPE ptype = TYPE_NULL);
-        void receive(Packet p);
-        Packet& parameter();
+        ParameterPort(std::string name="PAR0", PORT_TYPE ptype = TYPE_NULL);
+        void receive(Parameter p);
+        Parameter& parameter();
         
     private:
-        Packet mParameterPacket;
+        Parameter mParameter;
     };
     
     class InputPort : public Port {
