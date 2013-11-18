@@ -4,6 +4,9 @@ TODO:
 -if we keep boost::variant, need to handle the bad gets
 -probably need pImpl everywhere eventually
 -remove some of the string matching
+-parameter class (don't use packets)
+-error port (stderr)
+-log port (stdout)
 
 
 QUESTIONS:

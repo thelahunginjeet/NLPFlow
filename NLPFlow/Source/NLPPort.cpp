@@ -100,5 +100,14 @@ namespace NLP {
         mWire.disconnect();
         return true;
     }
+
+# pragma mark - ErrorPort methods
+    
+    ErrorPort::ErrorPort() : Port("ERROR",TYPE_STR) {}
+    
+    void send(std::string errMessage) {
+        std::cerr << errMessage << std::endl;
+        return;
+    }
     
 }

@@ -78,7 +78,14 @@ namespace NLP {
     private:
         Emitter mEmitter;
         Wire mWire;
-    };    
+    };
+    
+    
+    class ErrorPort : public Port {
+    public:
+        ErrorPort();
+        void send(std::string errMessage);
+    };
     
 }
 
