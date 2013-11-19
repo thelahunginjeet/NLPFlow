@@ -93,7 +93,8 @@ namespace NLP {
     NLPNetwork::NLPNetwork() : Network() {}
     
     bool NLPNetwork::define() {
-        // set up the boxes
+        bool isWiredUp = true;
+        // boxes
         std::string rKey = "READER";
         addComponent(rKey,new TextReader("TextReader"));
         std::string tKey = "TOKENIZER";
@@ -107,13 +108,12 @@ namespace NLP {
         std::string wKey = "TXTWRITER";
         addComponent(wKey,new TextWriter("TextWriter"));
         // connectivity
-        bool isWiredUp = true;
         isWiredUp = isWiredUp && connect(rKey,"TXTOUT",tKey,"TXTIN");
         isWiredUp = isWiredUp && connect(tKey,"TXTOUT",sKey,"IN");
         isWiredUp = isWiredUp && connect(sKey,"OUT_T",wKey,"TXTIN");
         isWiredUp = isWiredUp && connect(sKey,"OUT_F",cKey,"TXTIN");
         isWiredUp = isWiredUp && connect(cKey,"INTOUT",iKey,"INTIN");
-        // parameters to boxes that need them
+        // parameters
         Parameter sourceFile = Parameter("./Tests/smalltest.txt");
         component(rKey).parameterPort("INFILE").receive(sourceFile);
         Parameter threshold = Parameter(3);

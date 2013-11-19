@@ -7,29 +7,22 @@ TODO:
 
 QUESTIONS:
 -need to check/manage open/close status of log,error ports?
--boost::variant the best way to handle the packets?  boost::get seems fine if we aren't manipulating the packet contents, and we cannot use visitors anyway because they are designed to avoid exposing the contents
 -hide the port implementation?
 -boost::ptr_map may be a bad idea b/c it internally uses void* as the pointer storage, but Container is abstract so there isn't a lot of choice
 -will the port opening/closing I have work with multithreading?
 
-In Network (with pimpl), the following works:
+Is there any way to have a nicer syntax with addComponent?  I would prefer:
 
-// puts a box into the box list, which is a boost::ptr_map
-addComponent(std::string name, Component* component) {
-    (mWrapper->mBoxes).insert(name,component);
-}
+addComponent(std::string name, Component& component)
 
-// inside network define()
-std::string rKey = "READER";
-TextReader *reader = new TextReader("TextReader");
-addComponent(rKey,reader);
+to
 
-OR
+addComponent(std::string name, Component* component)
 
-// this one looks more like the way I create the port list
-addComponent(rKey, new TextReader("TextReader"));
+but this creates problems with iteration, apparently having to do with the fact that the iterator over the boost::ptr_map is temporary and trying to access what's sitting in it->second gives a segfault.
 
-however, I can't seem to get a version to work that rewrites addComponent so that you
-accept the actual object and then add a pointer to it. Why not?  (Might have to do with a dangling reference for the iterator created when looping over the boxes, since apparently those are temp vars.)
+I think this is by design - you shouldn't use boost::ptr_map with elements that are not heap allocated, apparently.
+
+The only reason addPort looks nicer is because I hide the new - this is possible because there are a very limited number of port types so it is easy to do a switch in the addPort based on an enum for PORT_ID.  This same thing would not work for Component, as there is no (as yet) hierarchy of defined boxes - every box is currently a unique class derived from Component.
 
 
