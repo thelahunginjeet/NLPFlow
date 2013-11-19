@@ -21,12 +21,16 @@ namespace NLP {
         Network();
         bool connect(std::string boxOut, std::string portOut, std::string boxIn, std::string portIn);
         bool isRunnable();
+        void addComponent(std::string name, Component* component);
+        Component& component(std::string name);
         void run();
  
         virtual bool define() = 0;
         
-    protected:
-        boost::ptr_map<std::string, Component> mBoxes;
+    private:
+        struct Wrapper;
+        std::shared_ptr<Wrapper> mWrapper;
+        
     };
     
     // specific network

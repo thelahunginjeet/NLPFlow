@@ -10,9 +10,17 @@
 
 namespace NLP {
     
+# pragma mark - Wrapper for Network
+    
+    struct Network::Wrapper {
+        Wrapper() {};
+        boost::ptr_map<std::string, Component> mBoxes;
+    };
+
+    
 # pragma mark - Network methods
     
-    Network::Network() { }
+    Network::Network() : mWrapper(new Wrapper()) { }
     
     
     // This should check everyting:
@@ -21,13 +29,13 @@ namespace NLP {
     // - does the output-input type match?
     bool Network::connect(std::string boxOut, std::string outName, std::string boxIn, std::string inName)
     {
-        auto it1 = mBoxes.find(boxOut);
-        if (it1 == mBoxes.end()) {
+        auto it1 = (mWrapper->mBoxes).find(boxOut);
+        if (it1 == (mWrapper->mBoxes).end()) {
             std::cout << boxOut << " not found." << std::endl;
             return false;
         }
-        auto it2 = mBoxes.find(boxIn);
-        if (it2 == mBoxes.end()) {
+        auto it2 = (mWrapper->mBoxes).find(boxIn);
+        if (it2 == (mWrapper->mBoxes).end()) {
             std::cout << boxIn << " not found." << std::endl;
             return false;
         }
@@ -40,12 +48,20 @@ namespace NLP {
     }
     
     bool Network::isRunnable() {
-        for(auto it = mBoxes.begin(); it != mBoxes.end(); ++it) {
+        for(auto it = (mWrapper->mBoxes).begin(); it != (mWrapper->mBoxes).end(); ++it) {
             if((it->second)->hasOpenPorts()) {
                 return true;
             }
         }
         return false;
+    }
+    
+    void Network::addComponent(std::string name, Component* component) {
+        (mWrapper->mBoxes).insert(name,component);
+    }
+    
+    Component& Network::component(std::string name) {
+        return (mWrapper->mBoxes).at(name);
     }
     
     void Network::run() {
@@ -55,7 +71,7 @@ namespace NLP {
             // a lot of these statements are just for debugging
             std::cout << "In run loop . . ." << std::endl;
             // iterate over all the components and to run them
-            for(auto it = mBoxes.begin(); it != mBoxes.end(); ++it) {
+            for(auto it = (mWrapper->mBoxes).begin(); it != (mWrapper->mBoxes).end(); ++it) {
                 std::cout << "Component '"  << (it->first) << "' in state ";
                 std::string state;
                 if((it->second)->hasOpenPorts()) {
@@ -78,30 +94,31 @@ namespace NLP {
     
     bool NLPNetwork::define() {
         // set up the boxes
-        std::string reader = "READER";
-        mBoxes.insert(reader, new TextReader("TextReader"));
-        std::string tokenizer = "TOKENIZER";
-        mBoxes.insert(tokenizer, new Tokenizer("Tokenizer"));
-        std::string selector = "SELECTOR";
-        mBoxes.insert(selector, new StringSizeSelector("Selector"));
-        std::string counter = "COUNTER";
-        mBoxes.insert(counter, new StringCounter("Counter"));
-        std::string intwriter = "INTWRITER";
-        mBoxes.insert(intwriter, new IntWriter("IntWriter"));
-        std::string txtwriter = "TXTWRITER";
-        mBoxes.insert(txtwriter, new TextWriter("TxtWriter"));
+        std::string rKey = "READER";
+        addComponent(rKey,new TextReader("TextReader"));
+        std::string tKey = "TOKENIZER";
+        addComponent(tKey,new Tokenizer("Tokenizer"));
+        std::string sKey = "SELECTOR";
+        addComponent(sKey, new StringSizeSelector("Selector"));
+        std::string cKey = "COUNTER";
+        addComponent(cKey,new StringCounter("Counter"));
+        std::string iKey = "INTWRITER";
+        addComponent(iKey,new IntWriter("IntWriter"));
+        std::string wKey = "TXTWRITER";
+        addComponent(wKey,new TextWriter("TextWriter"));
         // connectivity
         bool isWiredUp = true;
-        isWiredUp = isWiredUp && connect(reader,"TXTOUT",tokenizer,"TXTIN");
-        isWiredUp = isWiredUp && connect(tokenizer,"TXTOUT",selector,"IN");
-        isWiredUp = isWiredUp && connect(selector,"OUT_T",txtwriter,"TXTIN");
-        isWiredUp = isWiredUp && connect(selector,"OUT_F",counter,"TXTIN");
-        isWiredUp = isWiredUp && connect(counter,"INTOUT",intwriter,"INTIN");
+        isWiredUp = isWiredUp && connect(rKey,"TXTOUT",wKey,"TXTIN");
+        isWiredUp = isWiredUp && connect(rKey,"TXTOUT",tKey,"TXTIN");
+        isWiredUp = isWiredUp && connect(tKey,"TXTOUT",sKey,"IN");
+        isWiredUp = isWiredUp && connect(sKey,"OUT_T",wKey,"TXTIN");
+        isWiredUp = isWiredUp && connect(sKey,"OUT_F",cKey,"TXTIN");
+        isWiredUp = isWiredUp && connect(cKey,"INTOUT",iKey,"INTIN");
         // parameters to boxes that need them
         Parameter sourceFile = Parameter("./Tests/smalltest.txt");
-        mBoxes.at("READER").parameterPort("INFILE").receive(sourceFile);
-        Parameter theshold = Parameter(3);
-        mBoxes.at("SELECTOR").parameterPort("SIZE").receive(theshold);
+        component(rKey).parameterPort("INFILE").receive(sourceFile);
+        Parameter threshold = Parameter(3);
+        component(sKey).parameterPort("SIZE").receive(threshold);
         // should be true if everything is ok
         return isWiredUp;
     }

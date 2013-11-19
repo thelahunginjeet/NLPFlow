@@ -101,8 +101,8 @@ namespace NLP {
         bool inOpen = false;
         bool outOpen = false;
         // check parameter ports
-        if(mWrapper->mParameters.size()) {
-            for(auto it = mWrapper->mParameters.begin(); it != mWrapper->mParameters.end(); ++it) {
+        if((mWrapper->mParameters).size()) {
+            for(auto it = (mWrapper->mParameters).begin(); it != (mWrapper->mParameters).end(); ++it) {
                 if(it->second->isOpen()) {
                     parOpen = true;
                     break;
@@ -113,7 +113,7 @@ namespace NLP {
         }
         // input checking
         if(mWrapper->mInputs.size()) {
-            for(auto it = mWrapper->mInputs.begin(); it != mWrapper->mInputs.end(); ++it) {
+            for(auto it = (mWrapper->mInputs).begin(); it != (mWrapper->mInputs).end(); ++it) {
                 if(it->second->isOpen()) {
                     inOpen = true;
                     break;
@@ -123,7 +123,7 @@ namespace NLP {
             inOpen = true;
         }
         // check for open outputs
-        for(auto it = mWrapper->mOutputs.begin(); it != mWrapper->mOutputs.end(); ++it) {
+        for(auto it = (mWrapper->mOutputs).begin(); it != (mWrapper->mOutputs).end(); ++it) {
             if(it->second->isOpen()) {
                 outOpen = true;
                 break;

@@ -1,8 +1,8 @@
 TODO:
 -make a types header
 -if we keep boost::variant, need to handle the bad gets
--pimpl Network b/c it holds a ptr map of boxes
 -check that addPort does not try to add at an existing location
+-check that addComponent does not try to add at an existing location
 
 
 QUESTIONS:
@@ -11,3 +11,25 @@ QUESTIONS:
 -hide the port implementation?
 -boost::ptr_map may be a bad idea b/c it internally uses void* as the pointer storage, but Container is abstract so there isn't a lot of choice
 -will the port opening/closing I have work with multithreading?
+
+In Network (with pimpl), the following works:
+
+// puts a box into the box list, which is a boost::ptr_map
+addComponent(std::string name, Component* component) {
+    (mWrapper->mBoxes).insert(name,component);
+}
+
+// inside network define()
+std::string rKey = "READER";
+TextReader *reader = new TextReader("TextReader");
+addComponent(rKey,reader);
+
+OR
+
+// this one looks more like the way I create the port list
+addComponent(rKey, new TextReader("TextReader"));
+
+however, I can't seem to get a version to work that rewrites addComponent so that you
+accept the actual object and then add a pointer to it. Why not?
+
+
