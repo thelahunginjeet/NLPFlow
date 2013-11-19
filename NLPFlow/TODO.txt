@@ -1,7 +1,8 @@
 TODO:
 -make a types header
 -if we keep boost::variant, need to handle the bad gets
--pimpl things (like component) that expose their storage?
+-pimpl Network b/c it holds a ptr map of boxes
+-check that addPort does not try to add at an existing location
 
 
 QUESTIONS:

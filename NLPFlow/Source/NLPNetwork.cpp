@@ -14,22 +14,27 @@ namespace NLP {
     
     Network::Network() { }
     
-    bool Network::connect(std::string boxOut, std::string outName, std::string boxIn, std::string inName)
+    
     // This should check everyting:
     // - do the boxes exist?
     // - do the boxes contained the requested ports?
     // - does the output-input type match?
+    bool Network::connect(std::string boxOut, std::string outName, std::string boxIn, std::string inName)
     {
         auto it1 = mBoxes.find(boxOut);
         if (it1 == mBoxes.end()) {
+            std::cout << boxOut << " not found." << std::endl;
             return false;
         }
         auto it2 = mBoxes.find(boxIn);
         if (it2 == mBoxes.end()) {
+            std::cout << boxIn << " not found." << std::endl;
             return false;
         }
         if ((it1->second)->hasOutput(outName) && (it2->second)->hasInput(inName)) {
             return (it1->second)->outputPort(outName).connect((it2->second)->inputPort(inName));
+        } else {
+            std::cout << "Port name problem." << std::endl;
         }
         return false;
     }
@@ -44,7 +49,7 @@ namespace NLP {
     }
     
     void Network::run() {
-        std::cout << "<FLOW START>" << std::endl;
+        std::cout << "<---FLOW START--->" << std::endl;
         // this runs the network until there is nothing to do
         while(isRunnable()) {
             // a lot of these statements are just for debugging
@@ -64,7 +69,7 @@ namespace NLP {
                 }
             }
         }
-        std:: cout << "<FLOW END>" << std::endl;
+        std:: cout << "<---FLOW END--->" << std::endl;
     }
     
 # pragma mark - NLPNetwork methods

@@ -11,6 +11,7 @@
 
 #include "NLPComponent.hpp"
 #include "NLPTesting.hpp"
+#include <boost/ptr_container/ptr_map.hpp>
 
 namespace NLP {
     
