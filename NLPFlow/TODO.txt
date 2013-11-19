@@ -30,6 +30,6 @@ OR
 addComponent(rKey, new TextReader("TextReader"));
 
 however, I can't seem to get a version to work that rewrites addComponent so that you
-accept the actual object and then add a pointer to it. Why not?
+accept the actual object and then add a pointer to it. Why not?  (Might have to do with a dangling reference for the iterator created when looping over the boxes, since apparently those are temp vars.)
 
 
