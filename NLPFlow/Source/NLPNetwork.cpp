@@ -108,7 +108,6 @@ namespace NLP {
         addComponent(wKey,new TextWriter("TextWriter"));
         // connectivity
         bool isWiredUp = true;
-        isWiredUp = isWiredUp && connect(rKey,"TXTOUT",wKey,"TXTIN");
         isWiredUp = isWiredUp && connect(rKey,"TXTOUT",tKey,"TXTIN");
         isWiredUp = isWiredUp && connect(tKey,"TXTOUT",sKey,"IN");
         isWiredUp = isWiredUp && connect(sKey,"OUT_T",wKey,"TXTIN");
