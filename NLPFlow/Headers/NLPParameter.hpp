@@ -17,9 +17,9 @@ namespace NLP {
     class Parameter {
     public:
         typedef boost::variant<int,std::string> parameter_t;
-        Parameter();
-        Parameter(int data);
-        Parameter(std::string data);
+        Parameter() : mParameterData(0) {};
+        Parameter(int data) : mParameterData(data) {};
+        Parameter(std::string data) : mParameterData(data) {};
         
         // this does the get() but has to be called as get<type>(parameter)
         template<typename T>
@@ -40,4 +40,4 @@ namespace NLP {
 }
 
 
-#endif /* defined(__NLPFlow__NLPParameter__) */
+#endif /* defined(NLP_NLPParameter_hpp) */
