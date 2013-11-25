@@ -91,7 +91,7 @@ namespace NLP {
     }
     
     
-    bool Component::hasOpenPorts() {
+    const bool Component::hasOpenPorts() const {
         // component is run if the parameter AND inputs are open OR the outputs are open
         // we also need to make sure an initial box (params but no inputs) can still run
         // parOpen is true if ALL parameter ports are open
@@ -134,7 +134,12 @@ namespace NLP {
     
     const std::string Component::str() const {
         std::stringstream s;
-        s << "<Component:" << name() << " <" << this << ">>";
+        s << "<Component:" << name() << " <" << this << "> state: ";
+        if(hasOpenPorts()) {
+            s << "OPEN >";
+        } else {
+            s << "CLOSED > ";
+        }
         return s.str();
     }
     
