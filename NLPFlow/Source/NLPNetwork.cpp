@@ -72,7 +72,8 @@ namespace NLP {
             std::cout << "In run loop . . ." << std::endl;
             // iterate over all the components and to run them
             for(auto it = (mWrapper->mBoxes).begin(); it != (mWrapper->mBoxes).end(); ++it) {
-                std::cout << "Component '"  << (it->first) << "' in state ";
+                std::cout << (it->second)->str() << " in state ";
+                //std::cout << "Component '"  << (it->first) << "' in state ";
                 std::string state;
                 if((it->second)->hasOpenPorts()) {
                     state = "OPEN";

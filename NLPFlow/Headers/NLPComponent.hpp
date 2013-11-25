@@ -36,6 +36,8 @@ namespace NLP {
 
         virtual void execute() = 0;
         
+        const std::string str() const;
+        
     private:
         struct Wrapper;
         std::shared_ptr<Wrapper> mWrapper;

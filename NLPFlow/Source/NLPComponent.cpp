@@ -132,6 +132,12 @@ namespace NLP {
         return (parOpen && inOpen) || outOpen;
     }
     
+    const std::string Component::str() const {
+        std::stringstream s;
+        s << "<Component:" << name() << " <" << this << ">>";
+        return s.str();
+    }
+    
     
 # pragma mark - TextReader methods
     
