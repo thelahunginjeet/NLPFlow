@@ -93,19 +93,22 @@ namespace NLP {
     
     const bool Component::hasOpenPorts() const {
         // component is run if:
-        //  -parameter AND ALL inputs are open OR outputs are open
+        //  -ALL parameter AND ALL inputs are open OR outputs are open
         //  -if the box has no inputs but a parameter, it runs
         //  -parOpen is true if ALL parameter ports are open
+        //  -inOpen is true if ALL input ports are open
         //  -parOpen is also true if the box has no parameter ports
         //  -if the only open ports are parameter ports, the network will not hang
-        bool parOpen = false;
+        bool parOpen = true;
         bool inOpen = true;
         bool outOpen = false;
         // check parameter ports
         if((mWrapper->mParameters).size()) {
             for(auto it = (mWrapper->mParameters).begin(); it != (mWrapper->mParameters).end(); ++it) {
                 if(it->second->isOpen()) {
-                    parOpen = true;
+                    parOpen = parOpen && true;
+                } else {
+                    parOpen = false;
                     break;
                 }
             }
@@ -191,13 +194,12 @@ namespace NLP {
     
     void PacketWriter::execute() {
         logPort().send("PacketWriter.execute()\n");
-        std::stringstream stream;
         Packet toWrite;
         // empty the queue
         while(inputPort("PACKIN").isOpen()) {
             inputPort("PACKIN").dropNextPacket(toWrite);
-            stream << "Packet contents: " << toWrite.str() << std::endl;
-            logPort().send(stream.str());
+            logPort().send(toWrite.str());
+            logPort().send("\n");
         }
         return;
     }
