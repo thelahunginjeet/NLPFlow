@@ -92,13 +92,14 @@ namespace NLP {
     
     
     const bool Component::hasOpenPorts() const {
-        // component is run if the parameter AND inputs are open OR the outputs are open
-        // we also need to make sure an initial box (params but no inputs) can still run
-        // parOpen is true if ALL parameter ports are open
-        // parOpen is also true if the box has no parameter ports
-        // if the only open ports are parameter ports, the network will not hang
+        // component is run if:
+        //  -parameter AND ALL inputs are open OR outputs are open
+        //  -if the box has no inputs but a parameter, it runs
+        //  -parOpen is true if ALL parameter ports are open
+        //  -parOpen is also true if the box has no parameter ports
+        //  -if the only open ports are parameter ports, the network will not hang
         bool parOpen = false;
-        bool inOpen = false;
+        bool inOpen = true;
         bool outOpen = false;
         // check parameter ports
         if((mWrapper->mParameters).size()) {
@@ -115,7 +116,9 @@ namespace NLP {
         if(mWrapper->mInputs.size()) {
             for(auto it = (mWrapper->mInputs).begin(); it != (mWrapper->mInputs).end(); ++it) {
                 if(it->second->isOpen()) {
-                    inOpen = true;
+                    inOpen = inOpen && true;
+                } else {
+                    inOpen = false;
                     break;
                 }
             }
@@ -131,6 +134,7 @@ namespace NLP {
         }
         return (parOpen && inOpen) || outOpen;
     }
+    
     
     const std::string Component::str() const {
         std::stringstream s;
