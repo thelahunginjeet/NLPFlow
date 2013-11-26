@@ -26,6 +26,7 @@ namespace NLP {
         Packet(std::string data, PACKET_STAGE stage = OTHER_PACKET);
         bool isInitial();
         bool isFinal();
+        PACKET_STAGE stage();
         
         // this does the get() but has to be called as get<type>(packet)
         template<typename T>

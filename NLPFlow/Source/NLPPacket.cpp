@@ -24,4 +24,8 @@ namespace NLP {
         return (mStage == Packet::FINAL_PACKET) ? true : false;
     }
     
+    Packet::PACKET_STAGE Packet::stage() {
+        return mStage;
+    }
+    
 }
