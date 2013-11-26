@@ -53,15 +53,9 @@ namespace NLP {
     };
     
     // writers
-    class TextWriter : public Component {
+    class PacketWriter : public Component {
     public:
-        TextWriter(std::string name = "TextWriter");
-        void execute();
-    };
-    
-    class IntWriter : public Component {
-    public:
-        IntWriter(std::string name = "IntegerWriter");
+        PacketWriter(std::string name = "PacketWriter");
         void execute();
     };
     

@@ -11,9 +11,10 @@
 
 #include <iostream>
 #include <boost/variant.hpp>
+#include <boost/lexical_cast.hpp>
 
 namespace NLP {
-
+    
     class Packet {
     public:
         typedef boost::variant<int,std::string> packet_t;
@@ -27,6 +28,8 @@ namespace NLP {
         bool isInitial();
         bool isFinal();
         PACKET_STAGE stage();
+        
+        const std::string str() const;
         
         // this does the get() but has to be called as get<type>(packet)
         template<typename T>
@@ -43,6 +46,16 @@ namespace NLP {
     private:
         packet_t mPacketData;
         PACKET_STAGE mStage;
+        
+        struct stringizer : boost::static_visitor<> {
+        public:
+            void operator()(int const& i) {mStr = boost::lexical_cast<std::string>(i);};
+            void operator()(std::string const& s) {mStr = s;};
+            const std::string str() const {return mStr;};
+            
+        private:
+            std::string mStr;
+        };
     };
     
 }

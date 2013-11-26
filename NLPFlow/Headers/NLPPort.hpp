@@ -22,7 +22,7 @@ namespace NLP {
         typedef boost::signals2::connection Wire;
         
         enum PORT_TYPE {
-            TYPE_INT, TYPE_STR, TYPE_NULL
+            TYPE_INT, TYPE_STR, TYPE_ANY, TYPE_NULL
         };
         
         Port(std::string name, PORT_TYPE ptype);

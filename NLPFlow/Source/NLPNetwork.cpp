@@ -97,15 +97,15 @@ namespace NLP {
         std::string cKey = "COUNTER";
         addComponent(cKey,new StringCounter("Counter"));
         std::string iKey = "INTWRITER";
-        addComponent(iKey,new IntWriter("IntWriter"));
+        addComponent(iKey,new PacketWriter("IntWriter"));
         std::string wKey = "TXTWRITER";
-        addComponent(wKey,new TextWriter("TextWriter"));
+        addComponent(wKey,new PacketWriter("TextWriter"));
         // connectivity
         isWiredUp = isWiredUp && connect(rKey,"TXTOUT",tKey,"TXTIN");
         isWiredUp = isWiredUp && connect(tKey,"TXTOUT",sKey,"IN");
-        isWiredUp = isWiredUp && connect(sKey,"OUT_T",wKey,"TXTIN");
+        isWiredUp = isWiredUp && connect(sKey,"OUT_T",wKey,"PACKIN");
         isWiredUp = isWiredUp && connect(sKey,"OUT_F",cKey,"TXTIN");
-        isWiredUp = isWiredUp && connect(cKey,"INTOUT",iKey,"INTIN");
+        isWiredUp = isWiredUp && connect(cKey,"INTOUT",iKey,"PACKIN");
         // parameters
         Parameter sourceFile = Parameter("./Tests/smalltest.txt");
         component(rKey).parameterPort("INFILE").receive(sourceFile);

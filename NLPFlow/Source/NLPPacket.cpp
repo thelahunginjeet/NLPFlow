@@ -28,4 +28,10 @@ namespace NLP {
         return mStage;
     }
     
+    const std::string Packet::str() const {
+        Packet::stringizer theStringizer;
+        boost::apply_visitor(theStringizer,mPacketData);
+        return theStringizer.str();
+    }
+    
 }

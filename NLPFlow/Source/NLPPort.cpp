@@ -79,9 +79,14 @@ namespace NLP {
     
     bool OutputPort::canConnect(InputPort& port) {
         // checks compatible type AND insures type has been set for port
+        // an input port of TYPE_ANY can connect to any output port
         PORT_TYPE oType = type();
         PORT_TYPE iType = port.type();
+        // type check
         if((oType == iType) && (oType != TYPE_NULL) && (iType != TYPE_NULL)) {
+            return true;
+        }
+        if((oType != TYPE_NULL) && (iType == TYPE_ANY)){
             return true;
         }
         return false;

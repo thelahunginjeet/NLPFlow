@@ -180,47 +180,28 @@ namespace NLP {
         return;
     }
     
-# pragma mark - TextWriter methods
     
-    TextWriter::TextWriter(std::string name) : Component(name) {
-        // has no output port; only a single input port
-        std::string inName = "TXTIN";
-        addPort(inName,PORT_IN,Port::TYPE_STR);
-    }
+# pragma mark - PacketWriter methods
     
-    void TextWriter::execute() {
-        logPort().send("TextWriter.execute()\n");
-        // process packet
-        Packet toWrite;
-        // empty the input queue
-        while(inputPort("TXTIN").isOpen()) {
-            inputPort("TXTIN").dropNextPacket(toWrite);
-            logPort().send(toWrite.fetchPacketData<std::string>());
-            logPort().send("\n");
-        }
-        return;
-    }
-    
-# pragma mark - IntWriter methods
-    
-    IntWriter::IntWriter(std::string name) : Component(name) {
+    PacketWriter::PacketWriter(std::string name) : Component(name) {
         // one input, no outputs
-        std::string inName = "INTIN";
-        addPort(inName,PORT_IN,Port::TYPE_INT);
+        std::string inName = "PACKIN";
+        addPort(inName,PORT_IN,Port::TYPE_ANY);
     }
     
-    void IntWriter::execute() {
-        logPort().send("IntWriter.execute()\n");
+    void PacketWriter::execute() {
+        logPort().send("PacketWriter.execute()\n");
         std::stringstream stream;
         Packet toWrite;
         // empty the queue
-        while(inputPort("INTIN").isOpen()) {
-            inputPort("INTIN").dropNextPacket(toWrite);
-            stream << "Integer packet value = " << toWrite.fetchPacketData<int>() << std::endl;
+        while(inputPort("PACKIN").isOpen()) {
+            inputPort("PACKIN").dropNextPacket(toWrite);
+            stream << "Packet contents: " << toWrite.str() << std::endl;
             logPort().send(stream.str());
         }
         return;
     }
+    
     
 # pragma mark - Tokenizer methods
     
