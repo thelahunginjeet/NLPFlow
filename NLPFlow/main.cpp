@@ -15,6 +15,8 @@ int testnetwork() {
     NLP::NLPNetwork network;
     // setup
     bool isOK = network.define();
+    // diagnostic
+    std::cout << network.str() << std::endl;
     // run if the network is hooked up correctly
     if(isOK) {
         network.run();

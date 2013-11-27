@@ -150,9 +150,9 @@ namespace NLP {
         std::stringstream s;
         s << "<Component:" << name() << " <" << this << "> state: ";
         if(hasOpenPorts()) {
-            s << "OPEN >";
+            s << "OPEN>";
         } else {
-            s << "CLOSED > ";
+            s << "CLOSED>";
         }
         return s.str();
     }

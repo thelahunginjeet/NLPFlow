@@ -81,6 +81,16 @@ namespace NLP {
         std:: cout << "<---FLOW END--->" << std::endl;
     }
     
+    const std::string Network::str() const {
+        std::stringstream s;
+        s << "<Network: ";
+        for(auto it = (mWrapper->mBoxes).begin(); it != (mWrapper->mBoxes).end(); ++it) {
+            s << (it->second)->str() << " ";
+        }
+        s << ">";
+        return s.str();
+    }
+    
 # pragma mark - NLPNetwork methods
     
     NLPNetwork::NLPNetwork() : Network() {}
