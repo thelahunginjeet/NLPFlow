@@ -90,6 +90,13 @@ namespace NLP {
         return false;
     }
     
+    bool Component::hasParameter(std::string name) {
+        if((mWrapper->mParameters).find(name) != (mWrapper->mParameters).end()) {
+            return true;
+        }
+        return false;
+    }
+    
     
     const bool Component::hasOpenPorts() const {
         // component is run if:

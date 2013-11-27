@@ -32,6 +32,8 @@ namespace NLP {
         
         bool hasInput(std::string name);
         bool hasOutput(std::string name);
+        bool hasParameter(std::string name);
+        
         const bool hasOpenPorts() const;
 
         virtual void execute() = 0;
