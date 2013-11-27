@@ -277,27 +277,37 @@ namespace NLP {
 # pragma mark - StringSizeSelector methods
     
     StringSizeSelector::StringSizeSelector(std::string name) : Component(name) {
-        // one input, two outputs, parametric size selector
+        // one input, two outputs, parametric size selector with upper/lower bounds
         std::string inName = "IN";
         addPort(inName, PORT_IN, Port::TYPE_STR);
         std::string trueOut = "OUT_T";
         addPort(trueOut, PORT_OUT, Port::TYPE_STR);
         std::string falseOut = "OUT_F";
         addPort(falseOut, PORT_OUT, Port::TYPE_STR);
-        std::string paramName = "SIZE";
-        addPort(paramName, PORT_PAR, Port::TYPE_INT);
+        std::string plName = "LSIZE";
+        addPort(plName, PORT_PAR, Port::TYPE_INT);
+        std::string puName = "USIZE";
+        addPort(puName, PORT_PAR, Port::TYPE_INT);
+        
     }
     
     void StringSizeSelector::execute() {
         logPort().send("StringSizeSelector.execute()\n");
         // read the size parameter
-        int threshold = parameterPort("SIZE").parameter().fetchParameterData<int>();
+        int lower = parameterPort("LSIZE").parameter().fetchParameterData<int>();
+        int upper = parameterPort("USIZE").parameter().fetchParameterData<int>();
         // process packets
         Packet p;
         while(inputPort("IN").isOpen()) {
             inputPort("IN").dropNextPacket(p);
             std::string data = p.fetchPacketData<std::string>();
-            if (data.size() <= threshold) {
+            bool isTrue = false;
+            if (data.size() >= lower) {
+                if(data.size() <= upper) {
+                    isTrue = true;
+                }
+            }
+            if (isTrue) {
                 outputPort("OUT_T").open();
                 outputPort("OUT_T").send(p);
                 outputPort("OUT_T").close();
@@ -307,7 +317,8 @@ namespace NLP {
                 outputPort("OUT_F").close();
             }
         }
-        parameterPort("SIZE").close();
+        parameterPort("LSIZE").close();
+        parameterPort("USIZE").close();
     }
     
 # pragma mark - StringCounter methods

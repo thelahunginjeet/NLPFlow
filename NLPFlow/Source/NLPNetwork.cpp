@@ -119,8 +119,10 @@ namespace NLP {
         // parameters
         Parameter sourceFile = Parameter("./Tests/smalltest.txt");
         component(rKey).parameterPort("INFILE").receive(sourceFile);
-        Parameter threshold = Parameter(3);
-        component(sKey).parameterPort("SIZE").receive(threshold);
+        Parameter lower = Parameter(3);
+        component(sKey).parameterPort("LSIZE").receive(lower);
+        Parameter upper = Parameter(7);
+        component(sKey).parameterPort("USIZE").receive(upper);
         // should be true if everything is ok
         return isWiredUp;
     }
