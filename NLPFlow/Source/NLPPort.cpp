@@ -12,13 +12,13 @@ namespace NLP {
     
 # pragma mark - Port methods
     
-    Port::Port(std::string name, PORT_TYPE ptype) : mName(name), mType(ptype), mOpen(false) {}
+    Port::Port(std::string name, FLOW::PORT_TYPE ptype) : mName(name), mType(ptype), mOpen(false) {}
     
     const std::string Port::name() const {
         return mName;
     }
     
-    const Port::PORT_TYPE Port::type() const {
+    const FLOW::PORT_TYPE Port::type() const {
         return mType;
     }
     
@@ -35,7 +35,7 @@ namespace NLP {
     }
     
 # pragma mark - ParameterPort methods
-    ParameterPort::ParameterPort(std::string name, PORT_TYPE ptype) : Port(name, ptype) {}
+    ParameterPort::ParameterPort(std::string name, FLOW::PORT_TYPE ptype) : Port(name, ptype) {}
     
     void ParameterPort::receive(Parameter p) {
         // hold the parameter and open
@@ -50,7 +50,7 @@ namespace NLP {
     
 # pragma mark - InputPort methods
     
-    InputPort::InputPort(std::string name, PORT_TYPE ptype) : Port(name, ptype) {}
+    InputPort::InputPort(std::string name, FLOW::PORT_TYPE ptype) : Port(name, ptype) {}
     
     void InputPort::receive(Packet p) {
         // put the packet into the queue
@@ -69,7 +69,7 @@ namespace NLP {
     
 # pragma mark - OutputPort methods
     
-    OutputPort::OutputPort(std::string name, PORT_TYPE ptype) : Port(name, ptype) {}
+    OutputPort::OutputPort(std::string name, FLOW::PORT_TYPE ptype) : Port(name, ptype) {}
         
     void OutputPort::send(Packet p) {
         // send the packet
@@ -80,13 +80,13 @@ namespace NLP {
     bool OutputPort::canConnect(InputPort& port) {
         // checks compatible type AND insures type has been set for port
         // an input port of TYPE_ANY can connect to any output port
-        PORT_TYPE oType = type();
-        PORT_TYPE iType = port.type();
+        FLOW::PORT_TYPE oType = type();
+        FLOW::PORT_TYPE iType = port.type();
         // type check
-        if((oType == iType) && (oType != TYPE_NULL) && (iType != TYPE_NULL)) {
+        if((oType == iType) && (oType != FLOW::TYPE_NULL) && (iType != FLOW::TYPE_NULL)) {
             return true;
         }
-        if((oType != TYPE_NULL) && (iType == TYPE_ANY)){
+        if((oType != FLOW::TYPE_NULL) && (iType == FLOW::TYPE_ANY)){
             return true;
         }
         return false;
@@ -108,7 +108,7 @@ namespace NLP {
 
 # pragma mark - ErrorPort methods
     
-    ErrorPort::ErrorPort() : Port("ERROR",TYPE_STR) {}
+    ErrorPort::ErrorPort() : Port("ERROR",FLOW::TYPE_STR) {}
     
     void ErrorPort::send(std::string errMessage) {
         std::cerr << errMessage;
@@ -117,7 +117,7 @@ namespace NLP {
     
 # pragma mark - LogPort methods
     
-    LogPort::LogPort() : Port("LOG",TYPE_STR) {}
+    LogPort::LogPort() : Port("LOG",FLOW::TYPE_STR) {}
     
     void LogPort::send(std::string logMessage) {
         std::cout << logMessage;

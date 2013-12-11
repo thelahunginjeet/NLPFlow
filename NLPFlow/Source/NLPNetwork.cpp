@@ -7,6 +7,9 @@
 //
 
 #include "NLPNetwork.hpp"
+#include "NLPComponent.hpp"
+#include "NLPPort.hpp"
+#include <boost/ptr_container/ptr_map.hpp>
 
 namespace NLP {
     

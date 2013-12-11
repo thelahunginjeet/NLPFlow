@@ -9,9 +9,15 @@
 #ifndef NLP_NLPComponent_hpp
 #define NLP_NLPComponent_hpp
 
-#include "NLPPort.hpp"
+#include "NLPType.hpp"
 
 namespace NLP {
+    
+    class InputPort;
+    class OutputPort;
+    class ParameterPort;
+    class LogPort;
+    class ErrorPort;
     
     // abstract base class + pimpl interface
     class Component {
@@ -24,11 +30,7 @@ namespace NLP {
         LogPort& logPort();
         ErrorPort& errorPort();
         
-        enum PORT_ID {
-            PORT_IN, PORT_OUT, PORT_PAR
-        };
-        
-        void addPort(std::string portName, PORT_ID portID, Port::PORT_TYPE portType);
+        void addPort(std::string portName, FLOW::PORT_ID portID, FLOW::PORT_TYPE portType);
         
         bool hasInput(std::string name);
         bool hasOutput(std::string name);

@@ -48,6 +48,7 @@
 		8BB93A941819A58800E252BC /* NLPNetwork.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = NLPNetwork.hpp; path = NLPFlow/Headers/NLPNetwork.hpp; sourceTree = "<group>"; };
 		8BBCD7F3182D5F3500C6B81F /* NLPPacket.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = NLPPacket.cpp; path = NLPFlow/Source/NLPPacket.cpp; sourceTree = "<group>"; };
 		8BBCD7F6182D5F7800C6B81F /* NLPPacket.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = NLPPacket.hpp; path = NLPFlow/Headers/NLPPacket.hpp; sourceTree = "<group>"; };
+		8BC97DD21857C54F001FD038 /* NLPType.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = NLPType.hpp; path = NLPFlow/Headers/NLPType.hpp; sourceTree = "<group>"; };
 		8BDA539A183A87C900A5DA95 /* NLPParameter.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = NLPParameter.hpp; path = NLPFlow/Headers/NLPParameter.hpp; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -106,6 +107,7 @@
 		8BB93A811816FD2D00E252BC /* Headers */ = {
 			isa = PBXGroup;
 			children = (
+				8BC97DD21857C54F001FD038 /* NLPType.hpp */,
 				8BDA539A183A87C900A5DA95 /* NLPParameter.hpp */,
 				8BBCD7F6182D5F7800C6B81F /* NLPPacket.hpp */,
 				8BB93A941819A58800E252BC /* NLPNetwork.hpp */,

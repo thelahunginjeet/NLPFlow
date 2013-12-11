@@ -1,8 +1,8 @@
 TODO:
--make a types header
 -if we keep boost::variant, need to handle the bad gets
 -check that addPort does not try to add at an existing location
 -check that addComponent does not try to add at an existing location
+-pimpl the port so that includes of Packets/Parameters are not necessary
 
 
 QUESTIONS:

@@ -9,8 +9,9 @@
 #ifndef NLP_NLPPort_hpp
 #define NLP_NLPPort_hpp
 
-#include "NLPPacket.hpp"
+#include "NLPType.hpp"
 #include "NLPParameter.hpp"
+#include "NLPPacket.hpp"
 #include <boost/signals2/signal.hpp>
 #include <queue>
 
@@ -21,13 +22,9 @@ namespace NLP {
         typedef boost::signals2::signal<void (Packet)> Emitter;
         typedef boost::signals2::connection Wire;
         
-        enum PORT_TYPE {
-            TYPE_INT, TYPE_STR, TYPE_ANY, TYPE_NULL
-        };
-        
-        Port(std::string name, PORT_TYPE ptype);
+        Port(std::string name, FLOW::PORT_TYPE ptype);
         const std::string name() const;
-        const PORT_TYPE type() const;
+        const FLOW::PORT_TYPE type() const;
         void open();
         void close();
         virtual bool isOpen();
@@ -35,13 +32,13 @@ namespace NLP {
     protected:
         bool mOpen;
         std::string mName;
-        PORT_TYPE mType;
+        FLOW::PORT_TYPE mType;
         
     };
     
     class ParameterPort : public Port {
     public:
-        ParameterPort(std::string name="PAR0", PORT_TYPE ptype = TYPE_NULL);
+        ParameterPort(std::string name="PAR0", FLOW::PORT_TYPE ptype = FLOW::TYPE_NULL);
         void receive(Parameter p);
         Parameter& parameter();
         
@@ -51,7 +48,7 @@ namespace NLP {
     
     class InputPort : public Port {
     public:
-        InputPort(std::string name = "IN", PORT_TYPE ptype = TYPE_NULL);
+        InputPort(std::string name = "IN", FLOW::PORT_TYPE ptype = FLOW::TYPE_NULL);
         void receive(Packet p);
         const bool packetsReady() const;
         virtual bool isOpen();
@@ -64,7 +61,7 @@ namespace NLP {
     
     class OutputPort : public Port {
     public:
-        OutputPort(std::string name="OUT", PORT_TYPE ptype = TYPE_NULL);
+        OutputPort(std::string name="OUT", FLOW::PORT_TYPE ptype = FLOW::TYPE_NULL);
         void send(Packet p);
         bool connect(InputPort& port);
         bool canConnect(InputPort& port);

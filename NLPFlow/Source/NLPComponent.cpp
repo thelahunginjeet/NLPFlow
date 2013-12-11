@@ -6,6 +6,7 @@
 //  Copyright (c) 2013 Kevin Brown. All rights reserved.
 //
 
+#include "NLPPort.hpp"
 #include "NLPComponent.hpp"
 #include <boost/tokenizer.hpp>
 #include <boost/ptr_container/ptr_map.hpp>
@@ -59,15 +60,15 @@ namespace NLP {
         return mWrapper->mErrorPort;
     }
     
-    void Component::addPort(std::string portName, PORT_ID portID, Port::PORT_TYPE portType) {
+    void Component::addPort(std::string portName, FLOW::PORT_ID portID, FLOW::PORT_TYPE portType) {
         switch (portID) {
-            case PORT_IN:
+            case FLOW::PORT_IN:
                 (mWrapper->mInputs).insert(portName,new InputPort(portName,portType));
                 break;
-            case PORT_OUT:
+            case FLOW::PORT_OUT:
                 (mWrapper->mOutputs).insert(portName,new OutputPort(portName,portType));
                 break;
-            case PORT_PAR:
+            case FLOW::PORT_PAR:
                 (mWrapper->mParameters).insert(portName,new ParameterPort(portName,portType));
                 break;
             default:
@@ -163,10 +164,10 @@ namespace NLP {
     TextReader::TextReader(std::string name) : Component(name) {
         // parameter port that grabs the filename
         std::string parName = "INFILE";
-        addPort(parName,PORT_PAR,Port::TYPE_STR);
+        addPort(parName,FLOW::PORT_PAR,FLOW::TYPE_STR);
         // output port that throws the text
         std::string outName = "TXTOUT";
-        addPort(outName,PORT_OUT,Port::TYPE_STR);
+        addPort(outName,FLOW::PORT_OUT,FLOW::TYPE_STR);
     }
     
     void TextReader::execute() {
@@ -196,7 +197,7 @@ namespace NLP {
     PacketWriter::PacketWriter(std::string name) : Component(name) {
         // one input, no outputs
         std::string inName = "PACKIN";
-        addPort(inName,PORT_IN,Port::TYPE_ANY);
+        addPort(inName,FLOW::PORT_IN,FLOW::TYPE_ANY);
     }
     
     void PacketWriter::execute() {
@@ -217,9 +218,9 @@ namespace NLP {
     Tokenizer::Tokenizer(std::string name) : Component(name) {
         // one input, one output
         std::string inName = "TXTIN";
-        addPort(inName,PORT_IN,Port::TYPE_STR);
+        addPort(inName,FLOW::PORT_IN,FLOW::TYPE_STR);
         std::string outName = "TXTOUT";
-        addPort(outName,PORT_OUT,Port::TYPE_STR);
+        addPort(outName,FLOW::PORT_OUT,FLOW::TYPE_STR);
     }
     
     void Tokenizer::execute() {
@@ -249,11 +250,11 @@ namespace NLP {
     BinaryStringDuplicator::BinaryStringDuplicator(std::string name) : Component(name) {
         // one input, two outputs
         std::string inName = "IN";
-        addPort(inName, PORT_IN, Port::TYPE_STR);
+        addPort(inName, FLOW::PORT_IN, FLOW::TYPE_STR);
         std::string out1 = "OUT1";
-        addPort(out1, PORT_OUT, Port::TYPE_STR);
+        addPort(out1, FLOW::PORT_OUT, FLOW::TYPE_STR);
         std::string out2 = "OUT2";
-        addPort(out2, PORT_OUT, Port::TYPE_STR);
+        addPort(out2, FLOW::PORT_OUT, FLOW::TYPE_STR);
     }
     
     void BinaryStringDuplicator::execute() {
@@ -279,15 +280,15 @@ namespace NLP {
     StringSizeSelector::StringSizeSelector(std::string name) : Component(name) {
         // one input, two outputs, parametric size selector with upper/lower bounds
         std::string inName = "IN";
-        addPort(inName, PORT_IN, Port::TYPE_STR);
+        addPort(inName, FLOW::PORT_IN, FLOW::TYPE_STR);
         std::string trueOut = "OUT_T";
-        addPort(trueOut, PORT_OUT, Port::TYPE_STR);
+        addPort(trueOut, FLOW::PORT_OUT, FLOW::TYPE_STR);
         std::string falseOut = "OUT_F";
-        addPort(falseOut, PORT_OUT, Port::TYPE_STR);
+        addPort(falseOut, FLOW::PORT_OUT, FLOW::TYPE_STR);
         std::string plName = "LSIZE";
-        addPort(plName, PORT_PAR, Port::TYPE_INT);
+        addPort(plName, FLOW::PORT_PAR, FLOW::TYPE_INT);
         std::string puName = "USIZE";
-        addPort(puName, PORT_PAR, Port::TYPE_INT);
+        addPort(puName, FLOW::PORT_PAR, FLOW::TYPE_INT);
         
     }
     
@@ -326,9 +327,9 @@ namespace NLP {
     StringCounter::StringCounter(std::string name) : Component(name) {
         // one string input, one integer output
         std::string inName = "TXTIN";
-        addPort(inName, PORT_IN, Port::TYPE_STR);
+        addPort(inName, FLOW::PORT_IN, FLOW::TYPE_STR);
         std::string outName = "INTOUT";
-        addPort(outName, PORT_OUT, Port::TYPE_INT);
+        addPort(outName, FLOW::PORT_OUT, FLOW::TYPE_INT);
         mCount = 0;
     }
     

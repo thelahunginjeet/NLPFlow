@@ -9,11 +9,11 @@
 #ifndef NLP_NLPNetwork_hpp
 #define NLP_NLPNetwork_npp
 
-#include "NLPComponent.hpp"
 #include "NLPTesting.hpp"
-#include <boost/ptr_container/ptr_map.hpp>
 
 namespace NLP {
+    
+    class Component;
     
     // abstract base class
     class Network : public Testable {
